@@ -1,12 +1,24 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MyComponent from "./components/MyComponent";
+import Sidebar from "./components/Sidebar";
+import Home from "./components/Home";
 import "./App.css";
+import LoginForm from "./components/LoginForm";
+import SignUp from "./components/SignUp";
+import TempDah from "./components/TempDah";
 
 function App() {
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/dashboard" element={<TempDah />} />
+        </Routes>
+      </Router>{" "}
     </>
   );
 }
