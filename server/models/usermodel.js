@@ -3,10 +3,6 @@ const jwt = require('../node_modules/jsonwebtoken')
 require('dotenv').config();
 const key = process.env.MONGO_KEY
 const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
   signemail: {
     type: String,
     required: true,

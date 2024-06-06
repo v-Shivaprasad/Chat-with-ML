@@ -3,14 +3,6 @@ const router = express.Router();
 const User = require('../models/usermodel');
 const bcrypt = require('bcrypt');
 
-router.get('/',(req,res) =>{
-    console.log("hi");
-    return res.send("<p>Home<p>");
-})
-router.get('/home',(req,res) =>{
-    console.log("hi");
-    return res.send("<p>Home<p>");
-})
 
 router.post('users/signup',async(req,res) =>{
     try {

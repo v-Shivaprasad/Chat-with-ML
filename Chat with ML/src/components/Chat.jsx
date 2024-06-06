@@ -10,7 +10,27 @@ const Chat = () => {
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
   }, [messages]);
 
-  const handleSubmit = (e) => {
+  const getLLMResponse = async (text) => {
+    try {
+      const response = await fetch(
+        "https://5726-104-198-108-43.ngrok-free.app/predict",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      return data.prediction;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (inputValue.trim() === "") return;
 
@@ -21,15 +41,19 @@ const Chat = () => {
       fromUser: true,
     };
 
+    setMessages([...messages, newMessage]);
+    setInputValue("");
+
+    // Get the LLM response
+    const llmText = await getLLMResponse(inputValue.trim());
     const llmResponse = {
       id: messages.length + 1,
-      text: "Hello",
+      text: llmText,
       timestamp: new Date().toISOString(),
       fromUser: false,
     };
 
-    setMessages([...messages, newMessage, llmResponse]);
-    setInputValue("");
+    setMessages((prevMessages) => [...prevMessages, llmResponse]);
   };
 
   return (
