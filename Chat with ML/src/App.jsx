@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MyComponent from "./components/MyComponent";
-import Sidebar from "./components/Sidebar";
-import Home from "./components/Home";
+import Home from "./pages/Home";
 import "./App.css";
 import LoginForm from "./components/LoginForm";
 import SignUp from "./components/SignUp";

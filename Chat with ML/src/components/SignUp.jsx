@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../firebase-config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+// import { auth } from "../../firebase-config";
+// import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useDarkTheme } from "../store/ThemeManage";
+import { signupwithemailandPassword } from "../Hooks/Helper";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -25,12 +26,11 @@ const SignUp = () => {
     }
 
     try {
-      await createUserWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
+      console.log(formData);
+    const user  =   await signupwithemailandPassword(
+        formData
       );
-      navigate("/welcome");
+    console.log(user);
     } catch (error) {
       setError(error.message);
     }

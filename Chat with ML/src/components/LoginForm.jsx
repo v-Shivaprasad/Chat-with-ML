@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+// import {
+//   signInWithEmailAndPassword,
+//   signInWithPopup,
+//   GoogleAuthProvider,
+// } from "firebase/auth";
+import { loginwithemailandPassword } from "../Hooks/Helper";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../firebase-config";
+// import { auth } from "../../firebase-config";
 import { useDarkTheme } from "../store/ThemeManage";
 
 const LoginForm = () => {
@@ -18,31 +19,29 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
+      const user = await loginwithemailandPassword(
+       formData
       );
-      if (user) {
+      if (user.ok) {
         console.table(user);
-        navigate("/dashboard");
+        localStorage.setItem(user.token);
       }
     } catch (error) {
       setError(error.message);
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      console.log("Signed in with Google:", user);
-      navigate("/dashboard");
-    } catch (error) {
-      setError(error.message);
-    }
-  };
+  // const handleGoogleSignIn = async () => {
+  //   try {
+  //     const provider = new GoogleAuthProvider();
+  //     const result = await signInWithPopup(auth, provider);
+  //     const user = result.user;
+  //     console.log("Signed in with Google:", user);
+  //     navigate("/dashboard");
+  //   } catch (error) {
+  //     setError(error.message);
+  //   }
+  // };
 
   const handleInputChange = (e) => {
     setFormData({
