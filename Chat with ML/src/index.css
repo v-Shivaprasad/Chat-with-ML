@@ -1,3 +1,183 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap");
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+.bg-chatHistory {
+  /* ff 3.6+ */
+  background: -moz-linear-gradient(106deg, #030715 58%, #030715 91%, #010A30DE 100%);
+
+  /* safari 5.1+,chrome 10+ */
+  background: -webkit-linear-gradient(106deg, #030715 58%, #030715 91%, #010A30DE 100%);
+
+  /* opera 11.10+ */
+  background: -o-linear-gradient(106deg, #030715 58%, #030715 91%, #010A30DE 100%);
+
+  /* ie 6-9 */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#010A30', endColorstr='#030715', GradientType=0);
+
+  /* ie 10+ */
+  background: -ms-linear-gradient(106deg, #030715 58%, #030715 91%, #010A30DE 100%);
+
+  /* global 94%+ browsers support */
+  background: linear-gradient(106deg, #030715 58%, #030715 100%, #010A30DE 100%);
+}
+
+.bg-chatMsg {
+  /* ff 3.6+ */
+  background: -moz-radial-gradient(circle at 11% 38%, #030715F0 27%, #030715ED 64%, #010A30 100%);
+
+  /* safari 5.1+,chrome 10+ */
+  background: -webkit-radial-gradient(circle at 11% 38%, #030715F0 27%, #030715ED 64%, #010A30 100%);
+
+  /* opera 11.10+ */
+  background: -o-radial-gradient(circle at 11% 38%, #030715F0 27%, #030715ED 64%, #010A30 100%);
+
+  /* ie 10+ */
+  background: -ms-radial-gradient(circle at 11% 38%, #030715F0 27%, #030715ED 64%, #010A30 100%);
+
+  /* global 92%+ browsers support */
+  background: radial-gradient(circle at 11% 38%, #030715F0 27%, #030715ED 64%, #010A30 100%);
+}
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+:root {
+  --color-primary: 0, 4, 17;
+  /* RGB values for the primary color */
+}
+
+.bg-primary-97 {
+  --tw-bg-opacity: 0.97;
+  background-color: rgba(var(--color-primary), var(--tw-bg-opacity));
+}
+
+.bg-primary-96 {
+  --tw-bg-opacity: 0.96;
+  background-color: rgba(var(--color-primary), var(--tw-bg-opacity));
+}
+
+.bg-primary-95 {
+  --tw-bg-opacity: 0.95;
+  background-color: rgba(var(--color-primary), var(--tw-bg-opacity));
+}
+
+
+
+
+
+
+.sidebar {
+  -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(100px);
+    transform: translateY(100px);
+  }
+
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(100px);
+    transform: translateY(100px);
+  }
+
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+.bg-black-gradient {
+  background: linear-gradient(144.39deg,
+      #ffffff -278.56%,
+      #6d6d6d -78.47%,
+      #11101d 91.61%);
+}
+
+
+.button-style {
+  @apply bg-white w-40 text-black py-2 rounded hover:bg-purple-100 mx-2 my-5 font-poppins;
+}
+
+.shiny-button {
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  border: 1px solid rgb(146, 148, 248);
+  background: linear-gradient(to bottom, #ededed 0%, #e3e3e3 100%);
+  color: black;
+  transition: all 0.3s ease;
+}
+
+.shiny-button:hover {
+  background: linear-gradient(to bottom, #e3e3e3 0%, #ededed 100%);
+  border-color: #c0c0c0;
+  box-shadow: 1px 1px 25px 10px rgba(146, 148, 248, 0.4);
+}
+
+.shiny-button:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(146, 148, 248, 0.4),
+    transparent
+  );
+  transition: all 650ms;
+}
+
+.shiny-button:hover:before {
+  left: 100%;
+}
+
+.button-sm{
+  padding: 0.3rem;
+  font-size: 1rem;
+}
+
+.settings-icon{
+  animation: rotateSettings 10s linear infinite;
+
+}
+@keyframes rotateSettings {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.settings-icon2{
+  animation: rotateSettings2 10s linear infinite;
+
+}
+@keyframes rotateSettings2 {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+

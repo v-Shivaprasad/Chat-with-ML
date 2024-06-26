@@ -5,6 +5,9 @@ import "./App.css";
 import LoginForm from "./components/LoginForm";
 import SignUp from "./components/SignUp";
 import TempDah from "./components/TempDah";
+import About from "./pages/About";
+import Services from "./pages/Services";
+import Contact from "./pages/Contact";
 
 function App() {
   return (
@@ -14,7 +17,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/dashboard" element={<TempDah />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/Contact" element={<Contact />} />
         </Routes>
       </Router>{" "}
     </>

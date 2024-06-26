@@ -9,7 +9,11 @@ export default {
   ],
   darkMode: "class",
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'primary-97': 'rgba(var(--color-primary), 0.97)',
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),
