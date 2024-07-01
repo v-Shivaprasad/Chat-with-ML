@@ -76,15 +76,17 @@ const Chat = () => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Type your message..."
-          className="w-full rounded-md mt-auto mb-6  outline-none border-gray-300"
+          className="w-full rounded-md mt-auto mb-2  outline-none border-gray-300"
               style={{ maxWidth: '44rem', minWidth: '10rem', minHeight: '1rem' }}
+              
         />
         <button
           type="submit"
-          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg"
+          className="ml-2 mb-2 px-4 py-2 bg-blue-500 text-white rounded-lg"
         >
           Send
         </button>
+        
       </form>
     </div>
     </>
