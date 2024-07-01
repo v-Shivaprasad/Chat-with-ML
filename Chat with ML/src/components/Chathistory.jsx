@@ -10,7 +10,7 @@ import {
 const Chathistory = () => {
   return (
     <div>
-      <List className="dark:text-white">
+      <List className="dark:text-white  ">
         {" "}
         <ListItem>
           {" "}

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { getLLMResponse } from "../Hooks/Helper";
-
+import { useCompCommunicator } from "../store/CompCommunicater";
+import { VscHistory } from "react-icons/vsc";
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -9,9 +10,10 @@ const Chat = () => {
   // Scroll to the bottom of the chat container whenever new messages are added
   useEffect(() => {
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    console.log(messages)
   }, [messages]);
 
-
+  const { open, setOpen, openDrawer, closeDrawer } = useCompCommunicator();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,8 +42,14 @@ const Chat = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen justify-between bg-gray-100 pt-24 dark:bg-gray-800">
-      <div
+    <>
+
+    <div className="flex flex-col h-screen justify-between bg-gray-100 pt-24 dark:bg-gradient-to-tr from-[#030715F0] via-[#030715ED] to-[#010A30]">
+    <div className="absolute  top-1/2 transform  -translate-y-1/2 p-2" >
+        <button onClick={openDrawer} >
+          <VscHistory className=" fill-black bg-none dark:fill-slate-400" size={25}/>
+        </button>
+        </div><div
         className="chat-container flex-1 overflow-y-auto p-4 ml-auto mr-auto w-3/4"
         ref={chatContainerRef}
       >
@@ -68,7 +76,8 @@ const Chat = () => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Type your message..."
-          className="border border-gray-300 rounded-lg p-2 w-3/4"
+          className="w-full rounded-md mt-auto mb-6  outline-none border-gray-300"
+              style={{ maxWidth: '44rem', minWidth: '10rem', minHeight: '1rem' }}
         />
         <button
           type="submit"
@@ -78,6 +87,7 @@ const Chat = () => {
         </button>
       </form>
     </div>
+    </>
   );
 };
 
