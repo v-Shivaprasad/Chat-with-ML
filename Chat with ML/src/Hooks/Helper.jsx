@@ -25,7 +25,9 @@ export const loginwithemailandPassword = async (FormData) => {
       },
       body: JSON.stringify(FormData),
     });
-    return res;
+    const data = await res.json();
+    console.log(data);
+    return data;
   } catch (error) {
     console.log(error);
   }

@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
-// import {
-//   signInWithEmailAndPassword,
-//   signInWithPopup,
-//   GoogleAuthProvider,
-// } from "firebase/auth";
 import { loginwithemailandPassword } from "../Hooks/Helper";
 import { useNavigate } from "react-router-dom";
-// import { auth } from "../../firebase-config";
 import { useDarkTheme } from "../store/ThemeManage";
 
 const LoginForm = () => {
@@ -31,17 +25,6 @@ const LoginForm = () => {
     }
   };
 
-  // const handleGoogleSignIn = async () => {
-  //   try {
-  //     const provider = new GoogleAuthProvider();
-  //     const result = await signInWithPopup(auth, provider);
-  //     const user = result.user;
-  //     console.log("Signed in with Google:", user);
-  //     navigate("/dashboard");
-  //   } catch (error) {
-  //     setError(error.message);
-  //   }
-  // };
 
   const handleInputChange = (e) => {
     setFormData({
@@ -106,20 +89,6 @@ const LoginForm = () => {
             Login
           </Button>
         </form>
-        <Button
-          size="lg"
-          variant={!dark ? "outlined" : "filled"}
-          color={!dark ? "blue-gray" : "white"}
-          className="flex items-center gap-3 mt-4"
-          onClick={handleGoogleSignIn}
-        >
-          <img
-            src="https://docs.material-tailwind.com/icons/google.svg"
-            alt="Google"
-            className="h-6 w-6"
-          />
-          Continue with Google
-        </Button>
       </Card>
     </div>
   );
