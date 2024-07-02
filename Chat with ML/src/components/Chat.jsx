@@ -40,7 +40,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen justify-between bg-gray-100 pt-24 dark:bg-gray-800">
+    <div className="flex flex-col h-screen justify-between bg-gray-100 pt-24 dark:bg-primary-96">
       <div
         className="chat-container flex-1 overflow-y-auto p-4 ml-auto mr-auto w-3/4"
         ref={chatContainerRef}
