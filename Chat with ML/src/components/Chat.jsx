@@ -82,7 +82,7 @@ const Chat = () => {
         />
         <button
           type="submit"
-          className="ml-2 mb-2 px-4 py-2 bg-blue-500 text-white rounded-lg"
+          className="ml-2 mb-2 px-4 py-2 bg-white border-2 text-black rounded-lg"
         >
           Send
         </button>
