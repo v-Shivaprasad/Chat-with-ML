@@ -44,10 +44,10 @@ const Chat = () => {
   return (
     <>
 
-    <div className="flex flex-col h-screen justify-between bg-gray-100 pt-24 dark:bg-gradient-to-tr from-[#030715F0] via-[#030715ED] to-[#010A30]">
+    <div className="flex flex-col h-screen justify-between bg-gray-300 pt-24 dark:bg-gradient-to-tr from-[#030715F0] via-[#030715ED] to-[#010A30]">
     <div className="absolute  top-1/2 transform  -translate-y-1/2 p-2" >
         <button onClick={openDrawer} >
-          <VscHistory className=" fill-black bg-none dark:fill-slate-400" size={25}/>
+          <VscHistory className=" fill-black bg-none dark:fill-slate-200" size={25}/>
         </button>
         </div><div
         className="chat-container flex-1 overflow-y-auto p-4 ml-auto mr-auto w-3/4"
@@ -58,8 +58,8 @@ const Chat = () => {
             key={message.id}
             className={`message p-2 rounded-lg mb-2 max-w-xs ${
               message.fromUser
-                ? "ml-auto bg-blue-500 text-white"
-                : "self-start bg-gray-300 text-black"
+                ? "ml-auto bg-gray-600 text-white"
+                : "self-start bg-gray-700 text-white"
             }`}
           >
             <p>{message.text}</p>
