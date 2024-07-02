@@ -13,7 +13,7 @@ We are a team of 6 enthusiasts dedicated to creating an accessible and education
 ## Features
 -->Provides accurate answers to machine learning queries
 
--->Covers topics from beginner to basic levels
+-->Covers topics from beginner to Advanced levels
 
 -->User-friendly interface
 ## Installation
