@@ -2,10 +2,16 @@
     @apply fill-black bg-none dark:fill-white;
 }
 
-.input_field{
+/* .input_field{
     @layer !border-t-blue-gray-200 focus:!border-t-gray-900;
-}
+} */
 
 .form_tw{
     @apply mt-8 mb-2 w-80 max-w-screen-lg sm:w-96;
+}
+.gradient__text {
+    background: var(--gradient-text);
+    background-clip: text;
+    -webkit-background-clop: text;
+    -webkit-text-fill-color: transparent;
 }
