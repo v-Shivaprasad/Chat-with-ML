@@ -19,7 +19,7 @@ const Sidebar = () => {
       <Drawer
         open={open}
         onClose={closeDrawer}
-        className="p-4 dark:bg-slate-800"
+        className="p-4 dark:bg-primary-97"
       >
         <div className="mb-6 flex items-center justify-between">
           <Typography variant="h5" className="dark:text-white">

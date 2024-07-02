@@ -10,7 +10,7 @@
 
 .bg-chatHistory {
   /* ff 3.6+ */
-  background: -moz-linear-gradient(106deg, #030715 58%, #030715 91%, #010A30DE 100%);
+   background: -moz-linear-gradient(106deg, #030715 58%, #030715 91%, #010A30DE 100%);
 
   /* safari 5.1+,chrome 10+ */
   background: -webkit-linear-gradient(106deg, #030715 58%, #030715 91%, #010A30DE 100%);
@@ -25,7 +25,7 @@
   background: -ms-linear-gradient(106deg, #030715 58%, #030715 91%, #010A30DE 100%);
 
   /* global 94%+ browsers support */
-  background: linear-gradient(106deg, #030715 58%, #030715 100%, #010A30DE 100%);
+   background: linear-gradient(106deg, #030715 58%, #030715 100%, #010A30DE 100%);
 }
 
 .bg-chatMsg {
@@ -180,4 +180,3 @@
     transform: rotate(0deg);
   }
 }
-
