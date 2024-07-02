@@ -23,9 +23,7 @@ const About = () => {
         </div>
         <div className="about-content">
           <div className="about-text ">
-            <p className="about-description ">
-              {/* Welcome to <strong>Chat with Machine Learning</strong>, an innovative project that bridges the gap between readers and the insightful content crafted by authors. Our platform leverages the advanced <strong>LLAMA3</strong> language model to provide accurate and contextually relevant answers based on a curated selection of texts. */}
-            </p>
+          
             <h2 className="about-subtitle gradient__text">What is Chat with Machine Learning?</h2>
             <div>
             <p className="about-description">

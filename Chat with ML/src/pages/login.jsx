@@ -1,9 +1,121 @@
+// import React, { useState } from "react";
+// import { Card, Input, Button, Typography } from "@material-tailwind/react";
+// import { loginwithemailandPassword } from "../Hooks/Helper";
+// import { useNavigate } from "react-router-dom";
+// import { useDarkTheme } from "../store/ThemeManage";
+// import Navbar from "../components/Navbar";
+
+// const Login = () => {
+//   const [formData, setFormData] = useState({ email: "", password: "" });
+//   const [error, setError] = useState(null);
+//   const navigate = useNavigate();
+//   const { dark } = useDarkTheme();
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const user = await loginwithemailandPassword(formData);
+//       console.log(user);
+//       if (user.ok) {
+//         localStorage.setItem("token", user.token);
+//         navigate("/");
+//       }
+//     } catch (error) {
+//       setError(error.message);
+//     }
+//   };
+
+//   const handleInputChange = (e) => {
+//     setFormData({
+//       ...formData,
+//       [e.target.name]: e.target.value,
+//     });
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <div className={`flex justify-center items-center h-screen bg-gradient-to-tr from-[#030715F0] via-[#030715ED] to-[#010A30]`}>
+//         <Card color="transparent" shadow={true} className="p-8 bg-white rounded-lg shadow-lg max-w-sm w-full">
+//           <Typography variant="h4" color="blue-gray-700" className="text-center mb-4 gradient__text">
+//             Login To Your Account
+//           </Typography>
+//           <Typography color="blue-gray-500" className="text-center mb-6">
+//             {error ? (
+//               <p className="text-red-500">{error}</p>
+//             ) : (
+//               "Please fill in the details below to login."
+//             )}
+//           </Typography>
+//           <form className="space-y-6" onSubmit={handleSubmit}>
+//             <div className="mb-4">
+//               <div className="flex flex-col gap-2">
+//                 <Typography variant="h6" color="blue-gray-600">
+//                   Email
+//                 </Typography>
+//                 <Input
+//                   size="lg"
+//                   placeholder="Enter your email"
+//                   className="input_field"
+//                   labelProps={{
+//                     className: "before:content-none after:content-none",
+//                   }}
+//                   type="email"
+//                   name="email"
+//                   value={formData.email}
+//                   onChange={handleInputChange}
+//                 />
+//               </div>
+//             </div>
+//             <div className="mb-4">
+//               <div className="flex flex-col gap-2">
+//                 <Typography variant="h6" color="blue-gray-600">
+//                   Password
+//                 </Typography>
+//                 <Input
+//                   size="lg"
+//                   placeholder="Enter your password"
+//                   className="input_field"
+//                   labelProps={{
+//                     className: "before:content-none after:content-none",
+//                   }}
+//                   type="password"
+//                   name="password"
+//                   value={formData.password}
+//                   onChange={handleInputChange}
+//                 />
+//               </div>
+//             </div>
+//             <Button type="submit" color="blue-gray" className="w-full">
+//               Login
+//             </Button>
+//           </form>
+//         </Card>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default Login;
 import React, { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
-import { loginwithemailandPassword } from "../Hooks/Helper";
 import { useNavigate } from "react-router-dom";
 import { useDarkTheme } from "../store/ThemeManage";
 import Navbar from "../components/Navbar";
+
+// Mock login function for demonstration
+const loginwithemailandPassword = async ({ email, password }) => {
+  // Simulate a login request with a delay
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (email === "test@example.com" && password === "password") {
+        resolve({ ok: true, token: "fake-jwt-token" });
+      } else {
+        reject(new Error("Invalid email or password"));
+      }
+    }, 1000);
+  });
+};
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -15,11 +127,9 @@ const Login = () => {
     e.preventDefault();
     try {
       const user = await loginwithemailandPassword(formData);
-      console.log(user);
       if (user.ok) {
-        // console.table(user);
-        localStorage.setItem('token',user.token);
-        navigate('/');
+        localStorage.setItem("token", user.token);
+        navigate("/");
       }
     } catch (error) {
       setError(error.message);
@@ -35,64 +145,64 @@ const Login = () => {
 
   return (
     <>
-    <Navbar />
-    <div className="flex justify-center items-center h-screen  pt-48 dark:bg-chatMsg">
-      <Card color="transparent" shadow={false}>
-        <Typography variant="h4" color="white">
-          Login To Your Account
-        </Typography>
-        <Typography color="white" className="mt-1 font-normal">
-          {error ? (
-            <p className="text-red-500">{error}</p>
-          ) : (
-            "Please fill in the details below to login."
-          )}
-        </Typography>
-        <form className="form_tw" onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <div className="flex flex-col gap-2">
-              <Typography variant="h6" color="blue-white">
-                Email
-              </Typography>
-              <Input
-                size="lg"
-                placeholder="Enter your email"
-                className="input_field"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-              />
+      <Navbar />
+      <div className={`flex justify-center items-center h-screen bg-gradient-to-tr from-[#030715F0] via-[#030715ED] to-[#010A30]`}>
+        <Card color="transparent" shadow={true} className="p-8 bg-white rounded-lg shadow-lg max-w-sm w-full">
+          <Typography variant="h4" color="blue-gray-700" className="text-center mb-4 gradient__text">
+            Login To Your Account
+          </Typography>
+          <Typography color="blue-gray-500" className="text-center mb-6">
+            {error ? (
+              <p className="text-red-500">{error}</p>
+            ) : (
+              "Please fill in the details below to login."
+            )}
+          </Typography>
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <div className="flex flex-col gap-2">
+                <Typography variant="h6" color="blue-gray-600">
+                  Email
+                </Typography>
+                <Input
+                  size="lg"
+                  placeholder="Enter your email"
+                  className="input_field"
+                  labelProps={{
+                    className: "before:content-none after:content-none",
+                  }}
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                />
+              </div>
             </div>
-          </div>
-          <div className="mb-4">
-            <div className="flex flex-col gap-2">
-              <Typography variant="h6" color="white">
-                Password
-              </Typography>
-              <Input
-                size="lg"
-                placeholder="Enter your password"
-                className="input_field"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
+            <div className="mb-4">
+              <div className="flex flex-col gap-2">
+                <Typography variant="h6" color="blue-gray-600">
+                  Password
+                </Typography>
+                <Input
+                  size="lg"
+                  placeholder="Enter your password"
+                  className="input_field"
+                  labelProps={{
+                    className: "before:content-none after:content-none",
+                  }}
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                />
+              </div>
             </div>
-          </div>
-          <Button type="submit" color="white">
-            Login
-          </Button>
-        </form>
-      </Card>
-    </div>
+            <Button type="submit" color="blue" className="w-full bg-gradient-to-r from-gradient__textto-gradient__texthover:from-blue-700 hover:to-blue-900 text-white">
+              Login
+            </Button>
+          </form>
+        </Card>
+      </div>
     </>
   );
 };
