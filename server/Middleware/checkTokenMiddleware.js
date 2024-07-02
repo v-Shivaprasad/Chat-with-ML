@@ -16,4 +16,4 @@ const checkTokenMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = checkTokenMiddleware;
+module.exports = checkTokenMwiddleware;
