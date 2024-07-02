@@ -12,7 +12,8 @@ export default {
     extend: {
       colors: {
         'primary-97': 'rgba(var(--color-primary), 0.97)',
-      },
+          'chatMsg': 'radial-gradient(circle at 11% 38%, #030715F0 27%, #030715ED 64%, #010A30 100%)',
+     },
     },
   },
   plugins: [
