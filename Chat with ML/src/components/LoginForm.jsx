@@ -25,17 +25,6 @@ const LoginForm = () => {
     }
   };
 
-  // const handleGoogleSignIn = async () => {
-  //   try {
-  //     const provider = new GoogleAuthProvider();
-  //     const result = await signInWithPopup(auth, provider);
-  //     const user = result.user;
-  //     console.log("Signed in with Google:", user);
-  //     navigate("/dashboard");
-  //   } catch (error) {
-  //     setError(error.message);
-  //   }
-  // };
 
   const handleInputChange = (e) => {
     setFormData({

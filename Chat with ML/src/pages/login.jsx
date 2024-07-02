@@ -38,10 +38,10 @@ const Login = () => {
     <Navbar />
     <div className="flex justify-center items-center h-screen  pt-48 dark:bg-chatMsg">
       <Card color="transparent" shadow={false}>
-        <Typography variant="h4" color="blue-gray">
+        <Typography variant="h4" color="white">
           Login To Your Account
         </Typography>
-        <Typography color="gray" className="mt-1 font-normal">
+        <Typography color="white" className="mt-1 font-normal">
           {error ? (
             <p className="text-red-500">{error}</p>
           ) : (
@@ -51,7 +51,7 @@ const Login = () => {
         <form className="form_tw" onSubmit={handleSubmit}>
           <div className="mb-4">
             <div className="flex flex-col gap-2">
-              <Typography variant="h6" color="blue-gray">
+              <Typography variant="h6" color="blue-white">
                 Email
               </Typography>
               <Input
@@ -70,7 +70,7 @@ const Login = () => {
           </div>
           <div className="mb-4">
             <div className="flex flex-col gap-2">
-              <Typography variant="h6" color="blue-gray">
+              <Typography variant="h6" color="white">
                 Password
               </Typography>
               <Input
@@ -87,7 +87,7 @@ const Login = () => {
               />
             </div>
           </div>
-          <Button type="submit" color="blue">
+          <Button type="submit" color="white">
             Login
           </Button>
         </form>
@@ -98,3 +98,4 @@ const Login = () => {
 };
 
 export default Login;
+
