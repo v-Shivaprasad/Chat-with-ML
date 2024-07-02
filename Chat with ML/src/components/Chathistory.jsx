@@ -10,15 +10,15 @@ import {
 const Chathistory = () => {
   return (
     <div>
-      <List className="dark:text-white  ">
+      <List className="dark:text-white border border-gray-300 rounded-md p-4 ">
         {" "}
-        <ListItem>
+        <ListItem className="border-b border-gray-300 py-2">
           {" "}
           <ListItemPrefix className="dark:text-white">
             1.
           </ListItemPrefix> Chat1{" "}
         </ListItem>{" "}
-        <ListItem>
+        <ListItem className="border-b border-gray-300 py-2">
           {" "}
           <ListItemPrefix className="dark:text-white">
             2.

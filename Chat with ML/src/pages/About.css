@@ -1,0 +1,115 @@
+body {
+  background-color: gray;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.about-container {
+  margin: auto;
+  max-width: 100%;
+
+  padding: 2.5rem;
+  background-color: #000000;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about-title {
+  font-size: 3rem;
+  color: #fff;
+  margin-top: 3%;
+  padding-top: 3%;
+  font-style: italic;
+  border-radius: 5%;
+  margin-bottom: 1rem;
+  text-align:center;
+  width: 100%;
+}
+.llama{
+  padding-bottom: 1rem;
+}
+.llama img{
+  width: 30rem;
+  height: 19rem;
+}
+.about-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.about-text {
+  max-width: 100%;
+  text-align: left;
+}
+
+.about-subtitle {
+  font-size: 2rem;
+  color: #fff;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.about-description {
+  font-size: 1.2rem;
+  color: #fff;
+  font-style: italic;
+  line-height: 2;
+  margin-bottom: 1rem;
+  font-size:larger;
+  text-align: left;
+}
+
+.about-more {
+  font-size: 1.1rem;
+  color: #fff;
+  font-style: italic;
+  line-height: 1.6;
+  margin-top: 1rem;
+}
+.about-im {
+  display: flex;
+  justify-content: center;
+  align-items: center;     
+  height: 30vh;           
+}
+
+.inneraboutim {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
+
+.about-image-inline {
+  max-width: 100%; 
+  max-height: 100%; 
+  border-radius: 5%;
+  height: 28vh;
+}
+.about-toggle-button {
+  display: block;
+  margin: 1rem auto;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: #000000;
+  background-color: #e6e6fa;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.about-toggle-button:hover {
+  background-color: #f0f8ff;
+}
