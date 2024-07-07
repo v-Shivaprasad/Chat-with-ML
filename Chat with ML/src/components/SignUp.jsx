@@ -25,10 +25,8 @@ const SignUp = () => {
 
     try {
       console.log(formData);
-    const user  =   await signupwithemailandPassword(
-        formData
-      );
-    console.log(user);
+      const user = await signupwithemailandPassword(formData);
+      console.log(user);
     } catch (error) {
       setError(error.message);
     }
@@ -42,85 +40,71 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <Card color="transparent" shadow={false}>
-        <Typography variant="h4" color="blue-gray">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-tr from-[#030715F0] via-[#030715ED] to-[#010A30]">
+      <Card className="w-full max-w-md p-8 shadow-lg">
+        <Typography variant="h4" className="text-center mb-4 text-bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 font-bold">
           Create an Account
         </Typography>
-        <Typography color="gray" className="mt-1 font-normal dark:text-white">
-          {error ? (
-            <p className="text-red-500">{error}</p>
-          ) : (
-            "Please fill in the details below to create an account."
-          )}
+        {error && (
+          <Typography className="text-center mb-4 text-red-500">
+            {error}
+          </Typography>
+        )}
+        <Typography className="text-center mb-4 text-red-500">
+          Please fill in the details below to create an account.
         </Typography>
-        <form className="form_tw" onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <div className="flex flex-col gap-2">
-              <Typography variant="h6" color="blue-gray">
-                Email
-              </Typography>
-              <Input
-                size="lg"
-                placeholder="Enter your email"
-                className="input_field"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-              />
-            </div>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <Typography variant="h6" className="text-gray-700">
+              Email
+            </Typography>
+            <Input
+              size="lg"
+              placeholder="Enter your email"
+              className="w-full mt-2"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
           </div>
-          <div className="mb-4">
-            <div className="flex flex-col gap-2">
-              <Typography variant="h6" color="blue-gray">
-                Password
-              </Typography>
-              <Input
-                size="lg"
-                placeholder="Enter your password"
-                className="input_field"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
-            </div>
+          <div>
+            <Typography variant="h6" className="text-gray-700">
+              Password
+            </Typography>
+            <Input
+              size="lg"
+              placeholder="Enter your password"
+              className="w-full mt-2"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
           </div>
-          <div className="mb-4">
-            <div className="flex flex-col gap-2">
-              <Typography variant="h6" color="blue-gray">
-                Confirm Password
-              </Typography>
-              <Input
-                size="lg"
-                placeholder="Confirm your password"
-                className="input_field"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
+          <div>
+            <Typography variant="h6" className="text-gray-700">
+              Confirm Password
+            </Typography>
+            <Input
+              size="lg"
+              placeholder="Confirm your password"
+              className="w-full mt-2"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
           </div>
-          <Button type="submit" color="blue">
+          <Button type="submit" color="drek blue" className="w-full py-2 text-white">
             Sign Up
           </Button>
         </form>
         <Button
           size="lg"
-          variant={!dark ? "outlined" : "filled"}
-          color={!dark ? "blue-gray" : "white"}
-          className="flex items-center gap-3 mt-4"
-          onClick={() => console.log("Google Sign In")} // Replace with actual Google Sign-In handler
+          variant="outlined"
+          color="dark blue"
+          className="flex items-center gap-3 mt-6 w-full py-2"
+          onClick={() => console.log("Google Sign In")}
         >
           <img
             src="https://docs.material-tailwind.com/icons/google.svg"
@@ -135,3 +119,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+

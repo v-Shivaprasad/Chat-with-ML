@@ -9,7 +9,7 @@ body {
   /* Light mode styles */
   @media (prefers-color-scheme: light) {
     body {
-        background: linear-gradient(135deg, #ffffff, #cccccc); /* Light grey theme */
+        background: linear-gradient(135deg, #cccccc, #ffffff); /* Light grey theme */
         color: #000; /* Default text color */
     }
   
@@ -24,8 +24,8 @@ body {
     }
   
     .card {
-        background: linear-gradient(#ffffff 50%, #cccccc 50%);
-        color: #000; /* Card text color */
+        background: linear-gradient(#333333 50%, #cccccc 70%);
+        color: #fff; /* Card text color */
     }
   
     .icon-wrapper {
@@ -35,11 +35,11 @@ body {
   
     .card:hover .icon-wrapper {
         background-color: #ffffff;
-        color: #cccccc;
+        color: #000000;
     }
   
     .card:hover h3, .card:hover p {
-        color: #ffffff;
+        color: #000000;
     }
   }
   
