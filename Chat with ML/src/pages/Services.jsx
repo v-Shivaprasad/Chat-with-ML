@@ -13,7 +13,7 @@ const Service = () => {
     <div>
       <Navbar /> {/* Ensure the Navbar is rendered here */}
       <section>
-        <div className="row">
+        <div className="row gradient__text">
           <h2 className="section-heading">Our Services</h2>
         </div>
         <div className="row">
@@ -33,7 +33,7 @@ const Service = () => {
               <div className="icon-wrapper">
                 <FontAwesomeIcon icon={faBrush} />
               </div>
-              <h3>SOLVING QUERIES</h3>
+              <h3>PROGRAMMING ASSISTANCE</h3>
               <p>
               1.Machine Learning for Absolute Beginners: A Plain English Introduction (Third Edition).<br></br>
               2.The Hundred-Page Machine Learning Book.<br></br>
