@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import llamaImage from '../assets/llama.png';
+import llamaImage from '../assets/llama4.png';
 import machine4Image from '../assets/machine2.png';
 import machine3Image from '../assets/machine5.png';
 
@@ -81,6 +81,7 @@ const About = () => {
 };
 
 export default About;
+
 
 
 
