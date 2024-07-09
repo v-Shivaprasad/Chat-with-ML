@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import llamaImage from '../assets/llama3.png';
-import machine4Image from '../assets/machine4.png';
-import machine3Image from '../assets/machine3.png';
+import llamaImage from '../assets/llama.png';
+import machine4Image from '../assets/machine2.png';
+import machine3Image from '../assets/machine5.png';
 
 import Navbar from '../components/Navbar';
 import './About.css';
@@ -38,6 +38,7 @@ const About = () => {
             <p className="about-description">
               Using the state-of-the-art <strong>LLAMA3</strong> language model, our system processes and understands the intricacies of the selected texts. The training involves a rigorous process where the model learns to interpret and generate responses that align closely with the authors' original intent and content. This means you get answers that are faithful to the source material, minimizing the risk of irrelevant or misleading information.
             </p>
+           
             <h2 className="about-subtitle gradient__text">Our Mission</h2>
             <p className="about-description">
               Our mission is to revolutionize the way readers engage with written content. Whether you're a student, researcher, or an avid reader, Chat with Machine Learning aims to enhance your understanding and exploration of complex texts. We believe in the power of knowledge and are committed to making it more accessible, interactive, and engaging for everyone.
@@ -71,7 +72,7 @@ const About = () => {
               </p></>}
           </div>
         )}
-        <button className="about-toggle-button" onClick={handleToggle}>
+        <button className="about-toggle-button gradient__text" onClick={handleToggle}>
           {showMore ? "Read Less" : "Read More"}
         </button>
       </div>

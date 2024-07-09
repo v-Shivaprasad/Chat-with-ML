@@ -105,6 +105,7 @@ body {
   color: #000000;
   background-color: #e6e6fa;
   border: none;
+  border-color: #e6e6fa;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
