@@ -2,10 +2,13 @@ import React from 'react';
 import Navbar from '../components/Navbar'; // Adjust the path accordingly
 import '../components/Navbar.css';
 import './Services.css';
+import { FaRegLightbulb } from "react-icons/fa";
+import { IoSettings } from "react-icons/io5";
+import { FaCode } from "react-icons/fa";
 
 // Import Font Awesome
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCogs, faCode, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faCogs, faCode, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 
 // Service component
 const Service = () => {
@@ -21,7 +24,7 @@ const Service = () => {
             <div className="card">
               <div className="iconclass">
               <div className="icon-wrapper">
-                <FontAwesomeIcon icon={faCogs} />
+              <IoSettings />
               </div>
               </div>
               <div className="cardText">
@@ -36,8 +39,9 @@ const Service = () => {
             <div className="card">
             <div className="iconclass">
               <div className="icon-wrapper">
-                <FontAwesomeIcon icon={faCode} />
-              </div>
+              <FaCode />
+
+             </div>
               </div>
               <div className="cardText">
               <h3>PROGRAMMING ASSISTANCE</h3>
@@ -53,8 +57,9 @@ const Service = () => {
             <div className="card">
             <div className="iconclass">
               <div className="icon-wrapper">
-                <FontAwesomeIcon icon={faLightbulb} />
-              </div>
+              <FaRegLightbulb />
+
+                            </div>
               </div>
               <div className="cardText">
               <h3>SIMPLE ANSWERS</h3>
