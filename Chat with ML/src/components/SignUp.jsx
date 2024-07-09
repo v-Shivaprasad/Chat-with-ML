@@ -9,6 +9,7 @@ const SignUp = () => {
     email: "",
     password: "",
   });
+  console.log(formData);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
