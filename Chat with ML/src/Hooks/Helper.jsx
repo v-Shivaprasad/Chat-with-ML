@@ -8,8 +8,9 @@ export const signupwithemailandPassword = async (FormData) => {
       },
       body: JSON.stringify(FormData),
     });
-    console.log(result);
-    return result;
+    const data = await result.json();
+    console.log(data);
+    return data;
   } catch (error) {
     console.log(error);
     return "not found";
