@@ -50,7 +50,7 @@ const SignUp = () => {
             {error}
           </Typography>
         )}
-        <Typography className="text-center mb-4 text-red-500">
+        <Typography className="text-center mb-4 text-blue-1200">
           Please fill in the details below to create an account.
         </Typography>
         <form onSubmit={handleSubmit} className="space-y-6">
