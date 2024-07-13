@@ -5,7 +5,10 @@ const uri = process.env.MONGODB;
 
 const connectDb = async () => {
   try {
-    await mongoose.connect(uri);
+    await mongoose.connect(uri,{
+      dbName: 'Chat-with-ML', // Change the database name here
+
+    });
     console.log("You successfully connected to MongoDB!");
   } catch (error) {
     console.error("Database connection failed:", error);
