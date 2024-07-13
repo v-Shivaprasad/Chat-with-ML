@@ -3,20 +3,21 @@ import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { useDarkTheme } from "../store/ThemeManage";
 import Navbar from "../components/Navbar";
+import { loginwithemailandPassword } from "../Hooks/Helper";
 
 // Mock login function for demonstration
-const loginwithemailandPassword = async ({ email, password }) => {
-  // Simulate a login request with a delay
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (email === "test@example.com" && password === "password") {
-        resolve({ ok: true, token: "fake-jwt-token" });
-      } else {
-        reject(new Error("Invalid email or password"));
-      }
-    }, 1000);
-  });
-};
+// const loginwithemailandPassword = async ({ email, password }) => {
+//   // Simulate a login request with a delay
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (email === "test@example.com" && password === "password") {
+//         resolve({ ok: true, token: "fake-jwt-token" });
+//       } else {
+//         reject(new Error("Invalid email or password"));
+//       }
+//     }, 1000);
+//   });
+// };
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -30,6 +31,7 @@ const Login = () => {
       const user = await loginwithemailandPassword(formData);
       if (user.ok) {
         localStorage.setItem("token", user.token);
+        localStorage.setItem("email", formData.email); 
         navigate("/");
       }
     } catch (error) {

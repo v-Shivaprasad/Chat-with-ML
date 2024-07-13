@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { chatSaver } from "../Hooks/Helper"; // Assuming chatSaver is a function to save the chat to the backend
+import { chatSaver,fetchChatHistory } from "../Hooks/Helper"; // Assuming chatSaver is a function to save the chat to the backend
 import { useCompCommunicator } from "../store/CompCommunicater";
 import { VscHistory } from "react-icons/vsc";
 
@@ -14,7 +14,6 @@ const Chat = () => {
   useEffect(() => {
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
   }, [displayMessages]);
-
   const { openDrawer } = useCompCommunicator();
 
   useEffect(() => {
@@ -23,11 +22,35 @@ const Chat = () => {
     }
   }, [messagePairs]);
 
+  useEffect(() => {
+    fetchChat();
+  }, []);
+
+  const fetchChat = async () => {
+    const sessionId = localStorage.getItem('sessionId'); // Retrieve sessionId from localStorage
+    if (!sessionId) return;
+
+    const chatData = await fetchChatHistory(sessionId); // Fetch chat history from the backend
+    if (chatData && chatData.chat && chatData.chat.messages) {
+      setMessagePairs(chatData.chat.messages);
+      const messagesForDisplay = chatData.chat.messages.reduce((acc, pair) => {
+        acc.push({ fromUser: true, text: pair.userMessage.text });
+        acc.push({ fromUser: false, text: pair.llmMessage.text });
+        return acc;
+      }, []);
+      setDisplayMessages(messagesForDisplay);
+    }
+  }; 
+
   const saveChat = async () => {
+    const sessionId = localStorage.getItem('sessionId'); // Retrieve sessionId from localStorage
+    const userEmail = localStorage.getItem('email');
+
     const chatData = {
       title: chatTitle,
       email: email,
       messages: messagePairs,
+      sessionId: sessionId, // Include sessionId in chatData
     };
     await chatSaver(chatData);
     setMessagePairs([]);
