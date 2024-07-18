@@ -1,16 +1,15 @@
 /* Navbar.css */
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 10;
-    background-color: #fff; /* Or use a background color suitable for your theme */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Ensure padding to prevent content from being hidden behind the navbar */
-  .content {
-    padding-top: 64px; /* Adjust this value based on the height of your navbar */
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  background-color: #fff; /* Or use a background color suitable for your theme */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure padding to prevent content from being hidden behind the navbar */
+.content {
+  padding-top: 64px; /* Adjust this value based on the height of your navbar */
+}

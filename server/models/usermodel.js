@@ -12,6 +12,17 @@ const userSchema = new mongoose.Schema({
     type:String,
     required: true,
   },
+  chats:[{
+    _id:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'Chat',  
+      required: true, 
+    },
+    title:{
+      type:String,
+      required: true,
+    }
+  }]
 });
 function formatDate(date) {
   const day = String(date.getDate()).padStart(2, '0');
