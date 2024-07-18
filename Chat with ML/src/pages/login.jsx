@@ -31,7 +31,6 @@ const Login = () => {
       const user = await loginwithemailandPassword(formData);
       if (user.ok) {
         localStorage.setItem("token", user.token);
-        localStorage.setItem("email", formData.email); 
         navigate("/");
       }
     } catch (error) {
