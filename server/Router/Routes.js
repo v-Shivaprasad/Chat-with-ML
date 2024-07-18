@@ -8,6 +8,7 @@ const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 const key = process.env.MONGO_KEY;
 const Chat = require('../models/Chatmodel');
+const mongoose = require('mongoose');
 
 // User Signup
 router.post('/users/signup', async (req, res) => {
@@ -80,20 +81,80 @@ router.post('/users/logout', checkTokenMiddleware, async (req, res) => {
 });
 
 // Chat Saving Route
+// router.post('/users/saveChat', async (req, res) => {
+//   try {
+//     const { token, title, messages, sessionId } = req.body;
+//     const decoded = jwt.verify(token, key);
+//     const email = decoded.email;
+//     const user = await User.findOne({ signemail: email });
+
+//     if (!user) {
+//       return res.status(404).json({ msg: 'User not found', ok: false });
+//     }
+
+//     let chat;
+
+//     if (sessionId) {
+//       // If sessionId is provided, try to find the existing chat by sessionId
+//       chat = await Chat.findOne({ sessionId });
+//     }
+
+//     if (chat) {
+//       // If chat exists, append new messages
+//       chat.messages.push(...messages);
+//       chat.lastUpdated = Date.now();
+//     } else {
+//       // If chat does not exist, create a new one with a new sessionId
+//       const newSessionId = sessionId || uuidv4();
+//       chat = new Chat({
+//         sessionId: newSessionId,
+//         title,
+//         email,
+//         messages,
+//       });
+//     }
+
+//     await chat.save();
+
+//     // Check if chat ID already exists in user's chats array
+//     const chatIndex = user.chats.findIndex(c => c._id.toString() === chat._id.toString());
+
+//     if (chatIndex === -1) {
+//       // If chat ID does not exist, add it to the user's chats array
+//       user.chats.push({
+//         _id: chat._id,
+//         title: chat.title,
+//       });
+//     } else {
+//       // If chat ID exists, update the title if needed
+//       user.chats[chatIndex].title = chat.title;
+//     }
+
+//     await user.save();
+
+//     res.status(200).json({ msg: 'Chat saved successfully', ok: true, sessionId: chat.sessionId });
+//   } catch (error) {
+//     console.error('Error saving chat:', error);
+//     res.status(500).json({ msg: 'Internal server error', ok: false });
+//   }
+// });
+// Chat Saving Route
 router.post('/users/saveChat', async (req, res) => {
   try {
-    const { email, title, messages, sessionId } = req.body;
-
+    const { token, title, messages, chatId } = req.body; // Use chatId instead of sessionId
+    const decoded = jwt.verify(token, key);
+    const email = decoded.email;
     const user = await User.findOne({ signemail: email });
+
     if (!user) {
       return res.status(404).json({ msg: 'User not found', ok: false });
     }
 
     let chat;
 
-    if (sessionId) {
-      // If sessionId is provided, try to find the existing chat by sessionId
-      chat = await Chat.findOne({ sessionId });
+    if (chatId) {
+      // If chatId is provided, try to find the existing chat by chatId
+      chat = await Chat.findById(chatId);
     }
 
     if (chat) {
@@ -102,7 +163,7 @@ router.post('/users/saveChat', async (req, res) => {
       chat.lastUpdated = Date.now();
     } else {
       // If chat does not exist, create a new one with a new sessionId
-      const newSessionId = sessionId || uuidv4();
+      const newSessionId = uuidv4();
       chat = new Chat({
         sessionId: newSessionId,
         title,
@@ -113,27 +174,79 @@ router.post('/users/saveChat', async (req, res) => {
 
     await chat.save();
 
+    // Check if chat ID already exists in user's chats array
+    const chatIndex = user.chats.findIndex(c => c._id.toString() === chat._id.toString());
+
+    if (chatIndex === -1) {
+      // If chat ID does not exist, add it to the user's chats array
+      user.chats.push({
+        _id: chat._id,
+        title: chat.title,
+      });
+    } else {
+      // If chat ID exists, update the title if needed
+      user.chats[chatIndex].title = chat.title;
+    }
+
+    await user.save();
+
     res.status(200).json({ msg: 'Chat saved successfully', ok: true, sessionId: chat.sessionId });
   } catch (error) {
-    console.error('Error saving chat:', error);
+    if (error.name === 'TokenExpiredError') {
+      res.status(401).json({ msg: 'Session expired. Please log in again.', ok: false });
+    } else {
+      console.error('Error saving chat:', error);
+      res.status(500).json({ msg: 'Internal server error', ok: false });
+    }
+  }
+});
+
+
+
+router.post('/users/getChatHistory', async (req, res) => {
+  try {
+    const { token } = req.body;
+    const decoded = jwt.verify(token, key);
+    const email = decoded.email;
+    const user = await User.findOne({ signemail: email });
+
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found', ok: false });
+    }
+
+    const chatHistory = user.chats.map(chat => ({
+      chatId: chat._id,
+      title: chat.title
+    }));
+
+    res.status(200).json({ msg: 'Chat history fetched successfully', ok: true, chatHistory });
+  } catch (error) {
+    console.error('Error fetching chat history:', error);
     res.status(500).json({ msg: 'Internal server error', ok: false });
   }
 });
 
-// Fetch Chat History
-router.get('/users/getChatHistory/:sessionId', checkTokenMiddleware, async (req, res) => {
+router.post('/users/getChatDetails', async (req, res) => {
   try {
-    const { sessionId } = req.params;
-    const chat = await Chat.findOne({ sessionId });
+    const { token, chatId } = req.body;
+    const decoded = jwt.verify(token, key);
+    const email = decoded.email;
+    const user = await User.findOne({ signemail: email });
 
-    if (!chat) {
-      return res.status(404).json({ message: 'Chat history not found', ok: false });
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found', ok: false });
     }
 
-    res.status(200).json({ message: 'Chat history retrieved successfully', ok: true, chat });
+    const chat = await Chat.findById(chatId);
+
+    if (!chat) {
+      return res.status(404).json({ msg: 'Chat not found', ok: false });
+    }
+
+    res.status(200).json({ msg: 'Chat details fetched successfully', ok: true, chat });
   } catch (error) {
-    console.error('Error fetching chat history:', error);
-    res.status(500).json({ message: 'Internal server error', ok: false });
+    console.error('Error fetching chat details:', error);
+    res.status(500).json({ msg: 'Internal server error', ok: false });
   }
 });
 
