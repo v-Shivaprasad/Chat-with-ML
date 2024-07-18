@@ -9,8 +9,7 @@ const SignUp = () => {
     email: "",
     password: "",
   });
-  console.log(formData);
-  const [confirmPassword, setConfirmPassword] = useState("");
+ const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { dark } = useDarkTheme();
@@ -25,7 +24,7 @@ const SignUp = () => {
     }
 
     try {
-      console.log(formData);
+      // console.log(formData);
       const user = await signupwithemailandPassword(formData);
       console.log(user);
     } catch (error) {
@@ -96,24 +95,11 @@ const SignUp = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
-          <Button type="submit" color="drek blue" className="w-full py-2 text-white">
+          <Button type="submit"  className="w-full py-2 text-white">
             Sign Up
           </Button>
         </form>
-        <Button
-          size="lg"
-          variant="outlined"
-          color="dark blue"
-          className="flex items-center gap-3 mt-6 w-full py-2"
-          onClick={() => console.log("Google Sign In")}
-        >
-          <img
-            src="https://docs.material-tailwind.com/icons/google.svg"
-            alt="google"
-            className="h-6 w-6"
-          />
-          Continue with Google
-        </Button>
+        
       </Card>
     </div>
   );

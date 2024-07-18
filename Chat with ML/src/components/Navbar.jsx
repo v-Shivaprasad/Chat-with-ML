@@ -30,6 +30,8 @@ const Navbar = () => {
           if (!response.ok) {
             // Token is not valid or expired
             localStorage.removeItem('token');
+            localStorage.removeItem('email');
+            localStorage.removeItem('sessionId');
             setIsLoggedIn(false); // Update state to reflect logout
           } else {
             // Token is valid
@@ -38,6 +40,10 @@ const Navbar = () => {
         } catch (error) {
           console.error('Error checking token:', error);
         }
+      }
+      else{
+        localStorage.removeItem('email');
+        localStorage.removeItem('sessionId');
       }
     };
 
@@ -57,6 +63,8 @@ const Navbar = () => {
       const data = await res.json();
       if (res.ok) {
         localStorage.removeItem('token');
+        localStorage.removeItem('email');
+        localStorage.removeItem('sessionId');
         setIsLoggedIn(false);
         navigate('/');
       } else {

@@ -1,27 +1,27 @@
-import { createContext, useContext, useState } from "react";
+// import { createContext, useContext, useState } from "react";
 
-const CompCommunicate = createContext();
+// const CompCommunicate = createContext();
 
-export const CompCommunicateProvider = ({ children }) => {
-  const [open, setOpen] = useState(false);
-  const openDrawer = () => setOpen(true);
-  const closeDrawer = () => setOpen(false);
+// export const CompCommunicateProvider = ({ children }) => {
+//   const [open, setOpen] = useState(false);
+//   const openDrawer = () => setOpen(true);
+//   const closeDrawer = () => setOpen(false);
 
-  return (
-    <CompCommunicate.Provider
-      value={{
-        open,
-        setOpen,
-        openDrawer,
-        closeDrawer,
-      }}
-    >
-      {children}
-    </CompCommunicate.Provider>
-  );
-};
+//   return (
+//     <CompCommunicate.Provider
+//       value={{
+//         open,
+//         setOpen,
+//         openDrawer,
+//         closeDrawer,
+//       }}
+//     >
+//       {children}
+//     </CompCommunicate.Provider>
+//   );
+// };
 
-export const useCompCommunicator = () => {
-  return useContext(CompCommunicate);
-};
+// export const useCompCommunicator = () => {
+//   return useContext(CompCommunicate);
+// };
 
