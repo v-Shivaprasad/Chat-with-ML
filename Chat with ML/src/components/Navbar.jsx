@@ -101,7 +101,6 @@ const Navbar = () => {
   const Links = [
     { name: 'Home', link: '/' },
     { name: 'About', link: '/about' },
-    { name: 'Services', link: '/services' },
     { name: 'Contact', link: '/contact' },
   ];
 
@@ -111,7 +110,8 @@ const Navbar = () => {
         <div className="font-bold text-2xl cursor-pointer flex items-center font-[Poppins] text-black dark:text-white">
           <MyComponent />
           <span className="text-3xl text-indigo-600 mr-1 pt-2">
-            <GiFlyingTarget color="orange" />
+            {/* <GiFlyingTarget color="orange" /> */}
+            
           </span>
           <div>Chat with Ml</div>
           <div className="absolute right-4">
