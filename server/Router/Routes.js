@@ -190,7 +190,7 @@ router.post('/users/saveChat', async (req, res) => {
 
     await user.save();
 
-    res.status(200).json({ msg: 'Chat saved successfully', ok: true, sessionId: chat.sessionId });
+    res.status(200).json({ msg: 'Chat saved successfully', ok: true, sessionId: chat._id.toString() });
   } catch (error) {
     if (error.name === 'TokenExpiredError') {
       res.status(401).json({ msg: 'Session expired. Please log in again.', ok: false });
