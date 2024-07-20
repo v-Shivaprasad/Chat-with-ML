@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useDarkTheme } from "../store/ThemeManage";
 import Navbar from "../components/Navbar";
 import { loginwithemailandPassword } from "../Hooks/Helper";
-import { loginwithemailandPassword } from "../Hooks/Helper";
-
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
