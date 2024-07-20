@@ -169,7 +169,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { chatSaver } from "../Hooks/Helper";
 import Sidebar from "./Sidebar";
-import { useLocation } from "react-router-dom";
+import { getLLMResponse } from "../Hooks/Helper";
+import WelcomeScreen from "./Welcomescreen";
+
 
 const Chat = () => {
   const [messagePairs, setMessagePairs] = useState([]);
@@ -301,22 +303,21 @@ const Chat = () => {
   return (
     <div className="flex flex-col h-screen justify-between bg-gray-300 pt-24 dark:bg-gradient-to-tr from-[#030715F0] via-[#030715ED] to-[#010A30]">
       <Sidebar onSelectChat={handleSelectChat} />
-      <div
-        className="chat-container flex-1 overflow-y-auto p-4 ml-auto mr-auto w-3/4"
-        ref={chatContainerRef}
-      >
-        {displayMessages.map((message, index) => (
-          <div
-            key={index}
-            className={`message p-2 rounded-lg mb-2 max-w-xs ${
-              message.fromUser
-                ? "ml-auto bg-gray-600 text-white"
-                : "self-start bg-gray-700 text-white"
-            }`}
-          >
-            <p>{message.text}</p>
-          </div>
-        ))}
+      <div className="chat-container flex-1 overflow-y-auto p-4 ml-auto mr-auto w-3/4" ref={chatContainerRef}>
+        {displayMessages.length === 0 ? (
+          <WelcomeScreen/>
+        ) : (
+          displayMessages.map((message, index) => (
+            <div
+              key={index}
+              className={`message p-2 rounded-lg mb-2 max-w-xs ${
+                message.fromUser ? "ml-auto bg-gray-600 text-white" : "self-start bg-gray-700 text-white"
+              }`}
+            >
+              <p>{message.text}</p>
+            </div>
+          ))
+        )}
       </div>
       <form
         onSubmit={handleSubmit}

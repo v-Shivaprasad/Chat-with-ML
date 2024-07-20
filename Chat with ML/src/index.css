@@ -168,11 +168,7 @@
   font-size: 1rem;
 }
 
-.settings-icon{
-  animation: rotateSettings 10s linear infinite;
-
-}
-@keyframes rotateSettings {
+@keyframes rotate {
   from {
     transform: rotate(0deg);
   }
@@ -180,15 +176,8 @@
     transform: rotate(360deg);
   }
 }
-.settings-icon2{
-  animation: rotateSettings2 10s linear infinite;
 
+.rotating-logo {
+  animation: rotate 4s linear infinite;
 }
-@keyframes rotateSettings2 {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
+

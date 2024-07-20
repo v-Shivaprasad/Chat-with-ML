@@ -16,7 +16,7 @@ const About = () => {
   return (
     <>
       <Navbar />
-      <div className="about-container">
+      <div className="about-container bg-gradient-to-tr from-[#030715F0] via-[#030715ED] to-[#010A30]">
         <h1 className="about-title ">About us ..</h1>
         <div className="llama">
         <img src={llamaImage} alt="LLaMA3" className="about-image-inline" />

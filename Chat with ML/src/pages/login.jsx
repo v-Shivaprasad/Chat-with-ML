@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDarkTheme } from "../store/ThemeManage";
 import Navbar from "../components/Navbar";
 import { loginwithemailandPassword } from "../Hooks/Helper";
+import { loginwithemailandPassword } from "../Hooks/Helper";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -85,7 +86,7 @@ const Login = () => {
                 />
               </div>
             </div>
-            <Button type="submit" color="blue" className="w-full bg-gradient-to-r from-gradient__textto-gradient__texthover:from-blue-700 hover:to-blue-900 text-white">
+            <Button type="submit" color="blue" className="w-full bg-gradient-to-r from-gradient_textto-gradient_texthover:from-blue-700 hover:to-blue-900 text-white">
               Login
             </Button>
           </form>
