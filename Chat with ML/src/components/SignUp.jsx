@@ -26,6 +26,7 @@ const SignUp = () => {
     try {
       // console.log(formData);
       const user = await signupwithemailandPassword(formData);
+      navigate("/login");
       console.log(user);
     } catch (error) {
       setError(error.message);
