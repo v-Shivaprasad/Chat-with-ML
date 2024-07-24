@@ -9,6 +9,7 @@ require('dotenv').config();
 const key = process.env.MONGO_KEY;
 const Chat = require('../models/Chatmodel');
 const mongoose = require('mongoose');
+const axios = require('axios');
 
 // User Signup
 router.post('/users/signup', async (req, res) => {
@@ -80,67 +81,9 @@ router.post('/users/logout', checkTokenMiddleware, async (req, res) => {
   }
 });
 
-// Chat Saving Route
-// router.post('/users/saveChat', async (req, res) => {
-//   try {
-//     const { token, title, messages, sessionId } = req.body;
-//     const decoded = jwt.verify(token, key);
-//     const email = decoded.email;
-//     const user = await User.findOne({ signemail: email });
-
-//     if (!user) {
-//       return res.status(404).json({ msg: 'User not found', ok: false });
-//     }
-
-//     let chat;
-
-//     if (sessionId) {
-//       // If sessionId is provided, try to find the existing chat by sessionId
-//       chat = await Chat.findOne({ sessionId });
-//     }
-
-//     if (chat) {
-//       // If chat exists, append new messages
-//       chat.messages.push(...messages);
-//       chat.lastUpdated = Date.now();
-//     } else {
-//       // If chat does not exist, create a new one with a new sessionId
-//       const newSessionId = sessionId || uuidv4();
-//       chat = new Chat({
-//         sessionId: newSessionId,
-//         title,
-//         email,
-//         messages,
-//       });
-//     }
-
-//     await chat.save();
-
-//     // Check if chat ID already exists in user's chats array
-//     const chatIndex = user.chats.findIndex(c => c._id.toString() === chat._id.toString());
-
-//     if (chatIndex === -1) {
-//       // If chat ID does not exist, add it to the user's chats array
-//       user.chats.push({
-//         _id: chat._id,
-//         title: chat.title,
-//       });
-//     } else {
-//       // If chat ID exists, update the title if needed
-//       user.chats[chatIndex].title = chat.title;
-//     }
-
-//     await user.save();
-
-//     res.status(200).json({ msg: 'Chat saved successfully', ok: true, sessionId: chat.sessionId });
-//   } catch (error) {
-//     console.error('Error saving chat:', error);
-//     res.status(500).json({ msg: 'Internal server error', ok: false });
-//   }
-// });
-// Chat Saving Route
-router.post('/users/saveChat', async (req, res) => {
+router.post('/users/saveChat', checkTokenMiddleware , async (req, res) => {
   try {
+    console.log(req.body);
     const { token, title, messages, chatId } = req.body; // Use chatId instead of sessionId
     const decoded = jwt.verify(token, key);
     const email = decoded.email;
@@ -164,7 +107,7 @@ router.post('/users/saveChat', async (req, res) => {
     } else {
       // If chat does not exist, create a new one with a new sessionId
       const newSessionId = uuidv4();
-      chat = new Chat({
+       chat = new Chat({
         sessionId: newSessionId,
         title,
         email,
@@ -251,4 +194,26 @@ router.post('/users/getChatDetails', async (req, res) => {
 });
 
 
+
+
+router.post('/getRespo', async (req, res) => {
+  try {
+    const text = req.body.data;
+    const response = await axios.post(
+      "https://b4f9-34-87-122-129.ngrok-free.app/predict",
+      { text: text },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    let prediction = response.data.prediction;
+
+    res.json({ prediction }); // Send the LLM response back to the frontend
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Internal server error" });
+  }
+});
 module.exports = router;
