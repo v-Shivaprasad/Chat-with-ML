@@ -58,7 +58,7 @@ export const loginwithemailandPassword = async (FormData) => {
 export const getLLMResponse = async (text) => {
   try {
     const response = await fetch(
-      "https://5a24-34-142-135-186.ngrok-free.app/predict",
+      "https://aae8-34-16-134-227.ngrok-free.app/predict",
       {
         method: "POST",
         headers: {
