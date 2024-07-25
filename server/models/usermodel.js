@@ -36,7 +36,7 @@ userSchema.methods.generateToken = async function () {
     const token = jwt.sign(
       { userName: this.name, email: this.signemail, lastLoggedInDate: formattedDate },
       key,
-      { expiresIn: '1d' }
+      { expiresIn: '7d' }
     );
 
     return token;

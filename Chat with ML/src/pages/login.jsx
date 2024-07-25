@@ -4,11 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useDarkTheme } from "../store/ThemeManage";
 import Navbar from "../components/Navbar";
 import { loginwithemailandPassword } from "../Hooks/Helper";
-
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
-  const [loginSuccess, setLoginSuccess] = useState(false); // State to track login success
   const navigate = useNavigate();
   const { dark } = useDarkTheme();
 
@@ -18,9 +16,7 @@ const Login = () => {
       const user = await loginwithemailandPassword(formData);
       if (user.ok) {
         localStorage.setItem("token", user.token);
-        setLoginSuccess(true); // Set login success state to true
-        setTimeout(() => setLoginSuccess(false), 3000); // Clear success message after 3 seconds
-        navigate("/");
+        navigate("/", { state: { loginSuccess: true } }); // Pass loginSuccess state
       }
     } catch (error) {
       setError(error.message);
@@ -94,11 +90,6 @@ const Login = () => {
           </form>
         </Card>
       </div>
-      {loginSuccess && (
-        <div className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg">
-          <p className="text-center">Login Successful!</p>
-        </div>
-      )}
     </>
   );
 };

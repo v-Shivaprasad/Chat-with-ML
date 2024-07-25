@@ -17,23 +17,21 @@ export const signupwithemailandPassword = async (FormData) => {
   }
 };
 
-export const chatSaver= async (FormData) => {
-  try {
-    console.log(FormData);
-    const result = await fetch("http://localhost:3000/api/users/saveChat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(FormData),
-    });
-    const data = await result.json();
-    console.log(data);
-    return data;
-  } catch (error) {
-    console.log(error);
-    return "not found";
-  }
+export const chatSaver = async (chatData) => {
+  const response = await fetch("http://localhost:3000/api/users/saveChat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${chatData.token}`,
+    },
+    body: JSON.stringify({
+      title: chatData.title,
+      messages: chatData.messages,
+      chatId: chatData.chatId,
+      token:chatData.token,
+    }),
+  });
+  return await response.json();
 };
 
 export const loginwithemailandPassword = async (FormData) => {
@@ -58,13 +56,13 @@ export const loginwithemailandPassword = async (FormData) => {
 export const getLLMResponse = async (text) => {
   try {
     const response = await fetch(
-      "https://aae8-34-16-134-227.ngrok-free.app/predict",
+      "http://localhost:3000/api/getRespo", // Replace with your backend server URL
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ data: text }),
       }
     );
     const data = await response.json();
@@ -74,6 +72,7 @@ export const getLLMResponse = async (text) => {
     console.log(error);
   }
 };
+
 
 
 export const fetchChatHistory = async (sessionId) => {

@@ -3,6 +3,7 @@ import { chatSaver } from "../Hooks/Helper";
 import Sidebar from "./Sidebar";
 import { getLLMResponse } from "../Hooks/Helper";
 import WelcomeScreen from "./Welcomescreen";
+import { useLocation } from "react-router-dom";
 
 const Chat = () => {
   const [messagePairs, setMessagePairs] = useState([]);
@@ -10,9 +11,19 @@ const Chat = () => {
   const [inputValue, setInputValue] = useState("");
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [isFetchingResponse, setIsFetchingResponse] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const chatContainerRef = useRef(null);
   const chatTitle = "Chat Title";
-  const token = localStorage.getItem("token");
+  let token = localStorage.getItem("token");
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.loginSuccess) {
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -21,6 +32,7 @@ const Chat = () => {
   useEffect(() => {
     if (messagePairs.length > 0 && token) {
       saveChat();
+      setMessagePairs([]);
     }
   }, [messagePairs]);
 
@@ -61,15 +73,19 @@ const Chat = () => {
   };
 
   const saveChat = async () => {
+    token = localStorage.getItem("token");
     const chatData = {
-      token,
+      token: token,
       title: chatTitle,
       messages: messagePairs,
       chatId: selectedChatId, // Use selectedChatId instead of sessionId
     };
+    console.log(chatData);
     const response = await chatSaver(chatData);
     if (response.ok) {
       setMessagePairs([]);
+      console.log(response);
+      setSelectedChatId(response.sessionId);
     } else {
       console.error("Failed to save chat");
     }
@@ -95,14 +111,15 @@ const Chat = () => {
 
     // Mocking LLM response
     const getResponseMock = async () => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           resolve("hello");
         }, 3000); // 3000 milliseconds = 3 seconds
       });
     };
 
-    const llmResponse = await getResponseMock();
+    const llmResponse = await getLLMResponse(newUserMessage.text);
+    // const llmResponse = await getResponseMock();
     const newLlmMessage = {
       text: llmResponse,
     };
@@ -122,27 +139,42 @@ const Chat = () => {
     setIsFetchingResponse(false);
   };
 
+  const renderMessage = (message, index) => {
+    return (
+      <div
+        key={index}
+        className={`message p-2 rounded-lg mb-2  ${
+          message.fromUser
+            ? "ml-auto bg-gray-600 text-white max-w-xs"
+            : "self-start bg-gray-700 text-white w-2/3"
+        }`}
+      >
+        <p
+          className="whitespace-pre-wrap"
+          dangerouslySetInnerHTML={{
+            __html: message.text.replace(/\n/g, "<br/>"),
+          }}
+        ></p>
+      </div>
+    );
+  };
   return (
     <div className="flex flex-col h-screen justify-between bg-gray-300 pt-24 dark:bg-gradient-to-tr from-[#030715F0] via-[#030715ED] to-[#010A30]">
       <Sidebar onSelectChat={handleSelectChat} />
       <div className="chat-container flex-1 overflow-y-auto p-4 ml-auto mr-auto w-3/4" ref={chatContainerRef}>
-        {isFetchingResponse ? (
-          <div className="loader">Loading...</div>
+        {displayMessages.length === 0 ? (
+          <WelcomeScreen/>
         ) : (
-          displayMessages.length === 0 ? (
-            <WelcomeScreen />
-          ) : (
-            displayMessages.map((message, index) => (
-              <div
-                key={index}
-                className={`message p-2 rounded-lg mb-2 max-w-xs ${
-                  message.fromUser ? "ml-auto bg-gray-600 text-white" : "self-start bg-gray-700 text-white"
-                }`}
-              >
-                <p>{message.text}</p>
-              </div>
-            ))
-          )
+          displayMessages.map((message, index) => (
+            <div
+              key={index}
+              className={`message p-2 rounded-lg mb-2 max-w-xs ${
+                message.fromUser ? "ml-auto bg-gray-600 text-white" : "self-start bg-gray-700 text-white"
+              }`}
+            >
+              <p>{message.text}</p>
+            </div>
+          ))
         )}
       </div>
       <form
@@ -165,6 +197,11 @@ const Chat = () => {
           Send
         </button>
       </form>
+      {showToast && (
+        <div className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg">
+          <p className="text-center">Login Successful!</p>
+        </div>
+      )}
     </div>
   );
 };
