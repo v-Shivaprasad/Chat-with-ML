@@ -181,3 +181,23 @@
   animation: rotate 4s linear infinite;
 }
 
+/* Add this CSS rule to your main CSS file or within a style tag in your component */
+.thin-scrollbar {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1); /* Firefox */
+}
+
+.thin-scrollbar::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar for vertical scrolling */
+  height: 8px; /* Height of the scrollbar for horizontal scrolling */
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1); /* Background of the scrollbar track */
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5); /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Round the corners of the scrollbar thumb */
+  border: 2px solid rgba(0, 0, 0, 0.1); /* Space around the scrollbar thumb */
+}
