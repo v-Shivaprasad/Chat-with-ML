@@ -6,13 +6,13 @@ const uri = process.env.MONGODB;
 const connectDb = async () => {
   try {
     await mongoose.connect(uri,{
-      dbName: 'Ml', // Change the database name here
+      dbName: 'Chat-with-Ml',
 
     });
     console.log("You successfully connected to MongoDB!");
   } catch (error) {
     console.error("Database connection failed:", error);
-    process.exit(1); // Exit with a failure code
+    process.exit(1);
   }
 };
 
