@@ -14,7 +14,7 @@ const Chat = () => {
   const [showToast, setShowToast] = useState(false);
   const chatContainerRef = useRef(null);
   const chatTitle = "Chat Title";
-  const token = localStorage.getItem("token");
+  let token = localStorage.getItem("token");
 
   const location = useLocation();
 
@@ -32,6 +32,7 @@ const Chat = () => {
   useEffect(() => {
     if (messagePairs.length > 0 && token) {
       saveChat();
+      setMessagePairs([]);
     }
   }, [messagePairs]);
 
@@ -72,12 +73,14 @@ const Chat = () => {
   };
 
   const saveChat = async () => {
+    token = localStorage.getItem("token");
     const chatData = {
-      token,
+      token: token,
       title: chatTitle,
       messages: messagePairs,
       chatId: selectedChatId, // Use selectedChatId instead of sessionId
     };
+    console.log(chatData);
     const response = await chatSaver(chatData);
     if (response.ok) {
       setMessagePairs([]);
@@ -106,14 +109,14 @@ const Chat = () => {
 
     setInputValue("");
 
-// Mocking LLM response
-const getResponseMock = async () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve("hello");
-    }, 3000); // 3000 milliseconds = 3 seconds
-  });
-};
+    // Mocking LLM response
+    const getResponseMock = async () => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve("hello");
+        }, 3000); // 3000 milliseconds = 3 seconds
+      });
+    };
 
     const llmResponse = await getLLMResponse(newUserMessage.text);
     // const llmResponse = await getResponseMock();
@@ -158,7 +161,10 @@ const getResponseMock = async () => {
   return (
     <div className="flex flex-col h-screen justify-between bg-gray-300 pt-24 dark:bg-gradient-to-tr from-[#030715F0] via-[#030715ED] to-[#010A30]">
       <Sidebar onSelectChat={handleSelectChat} />
-      <div className="chat-container flex-1 overflow-y-auto p-4 ml-auto mr-auto w-3/4" ref={chatContainerRef}>
+      <div
+        className="chat-container flex-1 overflow-y-auto p-4 ml-auto mr-auto w-3/4 thin-scrollbar"
+        ref={chatContainerRef}
+      >
         {/* {displayMessages.length === 0 ? (
           <WelcomeScreen/>
         ) : (

@@ -17,7 +17,7 @@ const Navbar = () => {
     const checkTokenValidity = async () => {
       const token = localStorage.getItem('token');
       
-      if (token) {
+      if (token !== null) {
         try {
           const response = await fetch('http://localhost:3000/api/auth/checkToken', {
             method: 'POST',
@@ -26,7 +26,7 @@ const Navbar = () => {
               'Authorization': `Bearer ${token}`,
             },
           });
-
+  
           if (!response.ok) {
             // Token is not valid or expired
             localStorage.removeItem('token');
@@ -40,16 +40,16 @@ const Navbar = () => {
         } catch (error) {
           console.error('Error checking token:', error);
         }
-      }
-      else{
+      } else {
         localStorage.removeItem('email');
         localStorage.removeItem('sessionId');
+        setIsLoggedIn(false); // Update state to reflect logout
       }
     };
-
+  
     checkTokenValidity();
   }, []);
-
+  
   const handleSignout = async () => {
     const token = localStorage.getItem('token');
     try {
