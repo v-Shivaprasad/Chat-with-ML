@@ -165,20 +165,6 @@ const Chat = () => {
         className="chat-container flex-1 overflow-y-auto p-4 ml-auto mr-auto w-3/4 thin-scrollbar"
         ref={chatContainerRef}
       >
-        {/* {displayMessages.length === 0 ? (
-          <WelcomeScreen/>
-        ) : (
-          displayMessages.map((message, index) => (
-            <div
-              key={index}
-              className={`message p-2 rounded-lg mb-2  ${
-                message.fromUser ? "ml-auto bg-gray-600 text-white max-w-xs" : "self-start bg-gray-700 text-white w-full"
-              }`}
-            >
-              <p>{message.text}</p>
-            </div>
-          ))
-        )} */}
         {displayMessages.length === 0 ? (
           <WelcomeScreen />
         ) : (
