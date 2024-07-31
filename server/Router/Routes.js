@@ -10,6 +10,7 @@ const key = process.env.MONGO_KEY;
 const Chat = require('../models/Chatmodel');
 const mongoose = require('mongoose');
 const axios = require('axios');
+const classifyQuery = require('../classifyQuery');
 
 // User Signup
 router.post('/users/signup', async (req, res) => {
@@ -196,11 +197,51 @@ router.post('/users/getChatDetails', async (req, res) => {
 
 
 
+// router.post('/getRespo', async (req, res) => {
+//   try {
+//     const text = req.body.data;
+//     // console.log(text);
+//     const classification = await classifyQuery(text);
+//     if (classification == 'Non-Machine Learning') {
+//       return res.json({ prediction: "I apologize, but I am only able to assist with questions related to machine learning. Please feel free to ask anything within that topic." });
+//     }
+    
+//     const response = await axios.post(
+//       "https://cd16-34-138-12-175.ngrok-free.app/predict",
+//       { text: text },
+//       {
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       }
+//     );
+//     let prediction = response.data.prediction;
+//     // let prediction = "Hello";
+
+//     res.json({ prediction }); // Send the LLM response back to the frontend
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ msg: "Internal server error" });
+//   }
+// });
+
+
 router.post('/getRespo', async (req, res) => {
   try {
     const text = req.body.data;
+
+    const classificationResult = await classifyQuery(text);
+
+    if (classificationResult.type === 'Casual') {
+      return res.json({ prediction: classificationResult.response });
+    }
+
+    if (classificationResult.type === 'Non-Machine Learning') {
+      return res.json({ prediction: "I apologize, but I am only able to assist with questions related to machine learning. Please feel free to ask anything within that topic." });
+    }
+
     const response = await axios.post(
-      "https://b4f9-34-87-122-129.ngrok-free.app/predict",
+      "https://cd16-34-138-12-175.ngrok-free.app/predict",
       { text: text },
       {
         headers: {
@@ -216,4 +257,5 @@ router.post('/getRespo', async (req, res) => {
     res.status(500).json({ msg: "Internal server error" });
   }
 });
+
 module.exports = router;
