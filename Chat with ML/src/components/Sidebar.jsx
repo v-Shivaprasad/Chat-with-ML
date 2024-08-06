@@ -255,15 +255,6 @@ const Sidebar = ({ onSelectChat }) => {
                       {index + 1}.
                     </ListItemPrefix>
                     {chat.title}
-                    <ListItemSuffix>
-                      <Chip
-                        value={chat.messages?.length?.toString() || "0"}
-                        size="sm"
-                        variant="ghost"
-                        color="blue-gray"
-                        className="rounded-full dark:text-white"
-                      />
-                    </ListItemSuffix>
                   </ListItem>
                 ))
               )}

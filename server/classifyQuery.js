@@ -23,7 +23,8 @@ const casualResponses = {
   "hi": "Hello! How can I assist you with machine learning today?",
   "hello": "Hi there! What machine learning topic would you like to discuss?",
   "thanks": "You're welcome! Feel free to ask any machine learning-related questions.",
-  "thank you": "You're welcome! Let me know if you have any more questions about machine learning."
+  "thank you": "You're welcome! Let me know if you have any more questions about machine learning.",
+  "ok":"Let me know if you have any more questions about machine learning."
 };
 
 const classifyQuery = async (query) => {
