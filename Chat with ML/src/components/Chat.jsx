@@ -4,6 +4,19 @@ import Sidebar from "./Sidebar";
 import { getLLMResponse } from "../Hooks/Helper";
 import WelcomeScreen from "./Welcomescreen";
 import { useLocation } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
+
+const Spinner = () => (
+  <Box sx={{ width: 300, alignSelf: "start" }}>
+    <Skeleton
+      className="dark:bg-d bg-slate-100"
+      animation="wave"
+      height={60}
+      width="100%"
+    />
+  </Box>
+);
 
 const Chat = () => {
   const [messagePairs, setMessagePairs] = useState([]);
@@ -106,17 +119,7 @@ const Chat = () => {
 
     setInputValue("");
 
-    // Mocking LLM response
-    const getResponseMock = async () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("hello");
-        }, 3000); // 3000 milliseconds = 3 seconds
-      });
-    };
-
     const llmResponse = await getLLMResponse(newUserMessage.text);
-    // const llmResponse = await getResponseMock();
     const newLlmMessage = {
       text: llmResponse,
     };
@@ -140,7 +143,7 @@ const Chat = () => {
     return (
       <div
         key={index}
-        className={`message p-2 rounded-lg mb-2  ${
+        className={`message p-2 rounded-lg mb-2 ${
           message.fromUser
             ? "ml-auto bg-gray-600 text-white max-w-xs"
             : "self-start bg-gray-700 text-white w-2/3"
@@ -155,6 +158,7 @@ const Chat = () => {
       </div>
     );
   };
+
   return (
     <div className="flex flex-col h-screen justify-between bg-gray-300 pt-24 dark:bg-gradient-to-tr from-[#030715F0] via-[#030715ED] to-[#010A30]">
       <Sidebar onSelectChat={handleSelectChat} />
@@ -167,6 +171,7 @@ const Chat = () => {
         ) : (
           displayMessages.map((message, index) => renderMessage(message, index))
         )}
+        {isFetchingResponse && <Spinner />} {/* Conditionally render spinner */}
       </div>
       <form
         onSubmit={handleSubmit}

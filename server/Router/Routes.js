@@ -194,38 +194,6 @@ router.post('/users/getChatDetails', async (req, res) => {
   }
 });
 
-
-
-
-// router.post('/getRespo', async (req, res) => {
-//   try {
-//     const text = req.body.data;
-//     // console.log(text);
-//     const classification = await classifyQuery(text);
-//     if (classification == 'Non-Machine Learning') {
-//       return res.json({ prediction: "I apologize, but I am only able to assist with questions related to machine learning. Please feel free to ask anything within that topic." });
-//     }
-    
-//     const response = await axios.post(
-//       "https://cd16-34-138-12-175.ngrok-free.app/predict",
-//       { text: text },
-//       {
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       }
-//     );
-//     let prediction = response.data.prediction;
-//     // let prediction = "Hello";
-
-//     res.json({ prediction }); // Send the LLM response back to the frontend
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ msg: "Internal server error" });
-//   }
-// });
-
-
 router.post('/getRespo', async (req, res) => {
   try {
     const text = req.body.data;
@@ -239,19 +207,22 @@ router.post('/getRespo', async (req, res) => {
     if (classificationResult.type === 'Non-Machine Learning') {
       return res.json({ prediction: "I apologize, but I am only able to assist with questions related to machine learning. Please feel free to ask anything within that topic." });
     }
-
-    const response = await axios.post(
-      "https://cd16-34-138-12-175.ngrok-free.app/predict",
-      { text: text },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    let prediction = response.data.prediction;
-
-    res.json({ prediction }); // Send the LLM response back to the frontend
+    if (classificationResult.type === 'Machine Learning') {
+      const response = await axios.post(
+        "https://d3ae-34-16-223-63.ngrok-free.app/predict",
+        { text: text },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      let prediction = response.data.prediction;
+  
+      return res.json({ prediction });
+    }
+     // Send the LLM response back to the frontend
+     return res.json({ prediction: "There seems to be an error in the server please try again later" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Internal server error" });

@@ -109,11 +109,7 @@ const Navbar = () => {
       <div className="md:flex items-center justify-between bg-white dark:bg-primary-97 py-4 md:px-10 px-4">
         <div className="font-bold text-2xl cursor-pointer flex items-center font-[Poppins] text-black dark:text-white">
           <MyComponent />
-          <span className="text-3xl text-indigo-600 mr-1 pt-2">
-            {/* <GiFlyingTarget color="orange" /> */}
-            
-          </span>
-          <div>Chat with Ml</div>
+          <div>Chat with ML</div>
           <div className="absolute right-4">
             <DropMenu MenuItems={menuItems} />
           </div>
