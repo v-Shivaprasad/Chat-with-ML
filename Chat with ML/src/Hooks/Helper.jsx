@@ -53,23 +53,66 @@ export const loginwithemailandPassword = async (FormData) => {
 };
 
 
+// export const getLLMResponse = async (text) => {
+//   try {
+//     const response = await fetch(
+//       "http://localhost:3000/api/getRespo", // Replace with your backend server URL
+//       {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ data: text }),
+//       }
+//     );
+//     const data = await response.json();
+//     console.log(data);
+//     return data.prediction;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 export const getLLMResponse = async (text) => {
   try {
-    const response = await fetch(
-      "http://localhost:3000/api/getRespo", // Replace with your backend server URL
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ data: text }),
+      const response = await fetch(
+          "http://localhost:3000/api/getRespo", // Replace with your actual backend URL
+          {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ data: text }),
+          }
+      );
+
+      if (!response.ok) {
+          // Handle HTTP errors (e.g., 404, 500)
+          const errorData = await response.json(); //try to get error object from backend.
+          if(errorData && errorData.msg){
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.msg}`);
+          } else {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
       }
-    );
-    const data = await response.json();
-    console.log(data);
-    return data.prediction;
+
+      const data = await response.json();
+      console.log("LLM Response Data:", data);
+
+      if (data.image) {
+          // If the response includes an image URL
+          return {
+              text: data.prediction,
+              image: data.image,
+          };
+      } else {
+          // If the response only includes the prediction text
+          return data.prediction;
+      }
   } catch (error) {
-    console.log(error);
+      console.error("Error fetching LLM response:", error);
+      return "Failed to get response. Please try again later."; // User-friendly error message
   }
 };
 
