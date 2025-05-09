@@ -4,8 +4,8 @@ import MyComponent from './MyComponent';
 import { RxCross1 } from 'react-icons/rx';
 import DropMenu from './Menu';
 import { IoIosLogIn } from 'react-icons/io';
-import { useNavigate } from 'react-router-dom';
-import { useDarkTheme } from '../store/ThemeManage';
+import { Link, useNavigate } from "react-router-dom";
+import { useDarkTheme } from "../store/ThemeManage";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -15,93 +15,96 @@ const Navbar = () => {
 
   useEffect(() => {
     const checkTokenValidity = async () => {
-      const token = localStorage.getItem('token');
-      
+      const token = localStorage.getItem("token");
+
       if (token !== null) {
         try {
-          const response = await fetch('http://localhost:3000/api/auth/checkToken', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            },
-          });
-  
+          const response = await fetch(
+            "http://localhost:3000/api/auth/checkToken",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
           if (!response.ok) {
             // Token is not valid or expired
-            localStorage.removeItem('token');
-            localStorage.removeItem('email');
-            localStorage.removeItem('sessionId');
+            localStorage.removeItem("token");
+            localStorage.removeItem("email");
+            localStorage.removeItem("sessionId");
             setIsLoggedIn(false); // Update state to reflect logout
           } else {
             // Token is valid
             setIsLoggedIn(true);
           }
         } catch (error) {
-          console.error('Error checking token:', error);
+          console.error("Error checking token:", error);
         }
       } else {
-        localStorage.removeItem('email');
-        localStorage.removeItem('sessionId');
+        localStorage.removeItem("email");
+        localStorage.removeItem("sessionId");
         setIsLoggedIn(false); // Update state to reflect logout
       }
     };
-  
+
     checkTokenValidity();
   }, []);
-  
+
   const handleSignout = async () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
-      const res = await fetch('http://localhost:3000/api/users/logout', {
-        method: 'POST',
+      const res = await fetch("http://localhost:3000/api/users/logout", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       const data = await res.json();
       if (res.ok) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('email');
-        localStorage.removeItem('sessionId');
+        localStorage.removeItem("token");
+        localStorage.removeItem("email");
+        localStorage.removeItem("sessionId");
         setIsLoggedIn(false);
-        navigate('/');
+        navigate("/");
       } else {
         console.log(data.message);
       }
     } catch (error) {
-      console.error('Error logging out:', error);
+      console.error("Error logging out:", error);
     }
   };
 
   const menuItems = isLoggedIn
     ? [
         {
-          option: 'Signout',
+          option: "Signout",
           event: handleSignout,
         },
       ]
     : [
         {
-          option: 'Signup',
+          option: "Signup",
           event: () => {
-            navigate('/signup');
+            navigate("/signup");
           },
         },
         {
           icon: <IoIosLogIn size={20} />,
-          option: 'Login',
+          option: "Login",
           event: () => {
-            navigate('/login');
+            navigate("/login");
           },
         },
       ];
 
   const Links = [
-    { name: 'Home', link: '/' },
-    { name: 'About', link: '/about' },
-    { name: 'Contact', link: '/contact' },
+    { name: "Home", link: "/" },
+    { name: "About", link: "/about" },
+    { name: "Contact", link: "/contact" },
   ];
 
   return (
@@ -136,12 +139,12 @@ const Navbar = () => {
         >
           {Links.map((link) => (
             <li key={link.name} className="md:ml-6 text-xl md:my-0 my-7 mr-8">
-              <a
-                href={link.link}
+              <Link
+                to={link.link}
                 className="text-gray-800 hover:text-gray-400  dark:text-white dark:hover:text-blue-500 "
               >
                 {link.name}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

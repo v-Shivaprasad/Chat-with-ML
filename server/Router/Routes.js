@@ -11,6 +11,9 @@ const Chat = require('../models/Chatmodel');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const classifyQuery = require('../classifyQuery');
+const searchImage = require('../pse');
+const analyzeImage = require('../analyzeimage');
+const {getLlamaResponse} = require('../inference');
 
 // User Signup
 router.post('/users/signup', async (req, res) => {
@@ -82,7 +85,8 @@ router.post('/users/logout', checkTokenMiddleware, async (req, res) => {
   }
 });
 
-router.post('/users/saveChat', checkTokenMiddleware , async (req, res) => {
+
+router.post('/users/saveChat', checkTokenMiddleware, async (req, res) => {
   try {
     console.log(req.body);
     const { token, title, messages, chatId } = req.body; // Use chatId instead of sessionId
@@ -103,16 +107,30 @@ router.post('/users/saveChat', checkTokenMiddleware , async (req, res) => {
 
     if (chat) {
       // If chat exists, append new messages
-      chat.messages.push(...messages);
+      messages.forEach((msg) => {
+        chat.messages.push({
+          userMessage: { text: msg.userMessage.text },
+          llmMessage: {
+            text: msg.llmMessage.text,
+            image: msg.llmMessage.image || null, // Ensure image URL is stored properly
+          },
+        });
+      });
       chat.lastUpdated = Date.now();
     } else {
       // If chat does not exist, create a new one with a new sessionId
       const newSessionId = uuidv4();
-       chat = new Chat({
+      chat = new Chat({
         sessionId: newSessionId,
         title,
         email,
-        messages,
+        messages: messages.map((msg) => ({
+          userMessage: { text: msg.userMessage.text },
+          llmMessage: {
+            text: msg.llmMessage.text,
+            image: msg.llmMessage.image || null,
+          },
+        })),
       });
     }
 
@@ -144,7 +162,6 @@ router.post('/users/saveChat', checkTokenMiddleware , async (req, res) => {
     }
   }
 });
-
 
 
 router.post('/users/getChatHistory', async (req, res) => {
@@ -194,39 +211,123 @@ router.post('/users/getChatDetails', async (req, res) => {
   }
 });
 
+
+// router.post('/getRespo', async (req, res) => {
+//   try {
+//     const text = req.body.data;
+
+//     // ✅ Step 1: Classify the query
+//     const classificationResult = await classifyQuery(text);
+//     console.log("Raw Classification Result:", classificationResult);
+
+//     if (classificationResult.type === 'Casual') {
+//       return res.json({ prediction: classificationResult.response });
+//     }
+
+
+
+//     // ✅ Extract details
+//     const type = classificationResult.type || 'Error';
+//     const topic = classificationResult.topic || 'General Machine Learning';
+//     const searchQuery = classificationResult.searchQuery || text + " in machine learning";
+//     const needsImage = classificationResult.needsImage || false;
+
+//     console.log("Extracted Type:", type);
+//     console.log("Extracted Topic:", topic);
+//     console.log("Search Query for Image:", searchQuery);
+//     console.log("Needs Image:", needsImage);
+
+//     let imageUrl = null;
+//     let imageDescription = "";
+
+//     if (needsImage) {
+//       // ✅ Step 2: Search for an image (Google PSE)
+//       imageUrl = await searchImage(searchQuery);
+//       if (imageUrl) {
+//         // ✅ Step 3: Analyze the image (Gemini Vision)
+//         imageDescription = await analyzeImage(imageUrl);
+//       }
+//     }
+
+//     // ✅ Step 4: Generate Groq LLaMA response
+//     let prompt = `As a machine learning expert, provide a detailed explanation of "${text}". Structure your response clearly, covering key concepts, practical applications, and relevant examples. If the query is unrelated to machine learning, politely refuse to answer.
+// `;
+//     if (imageDescription) {
+//       prompt += ` Additionally, analyze this image: ${imageDescription}  add this placeholder for {{image}} and only before explaining image `;
+//     }
+    
+//     const prediction = await getLlamaResponse(prompt);
+
+//     return res.json({ prediction, image: imageUrl });
+//   } catch (error) {
+//     console.error("Error in getRespo:", error);
+//     res
+//       .status(500)
+//       .json({ prediction: "Internal server error", msg: error.message });
+//   }
+// });
+
 router.post('/getRespo', async (req, res) => {
   try {
     const text = req.body.data;
 
+    // ✅ Step 1: Classify the query
     const classificationResult = await classifyQuery(text);
+    console.log("Raw Classification Result:", classificationResult);
 
+    // ✅ Step 2: Handle casual responses
     if (classificationResult.type === 'Casual') {
       return res.json({ prediction: classificationResult.response });
     }
 
+    // ✅ Step 3: Reject Non-ML Queries
     if (classificationResult.type === 'Non-Machine Learning') {
-      return res.json({ prediction: "I apologize, but I am only able to assist with questions related to machine learning. Please feel free to ask anything within that topic." });
+      return res.json({ 
+        prediction: `Sorry I am a Machine Learning Model and i can't answer to this query as it is unrelated to Machine Learning. If you have any ML-related questions, I’d be happy to help!`,
+        image: null 
+      });
     }
-    if (classificationResult.type === 'Machine Learning') {
-      const response = await axios.post(
-        "https://d3ae-34-16-223-63.ngrok-free.app/predict",
-        { text: text },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      let prediction = response.data.prediction;
-  
-      return res.json({ prediction });
+
+    // ✅ Extract details
+    const type = classificationResult.type || 'Error';
+    const topic = classificationResult.topic || 'General Machine Learning';
+    const searchQuery = classificationResult.searchQuery || text + " in machine learning";
+    const needsImage = classificationResult.needsImage || false;
+
+    console.log("Extracted Type:", type);
+    console.log("Extracted Topic:", topic);
+    console.log("Search Query for Image:", searchQuery);
+    console.log("Needs Image:", needsImage);
+
+    let imageUrl = null;
+    let imageDescription = "";
+
+    if (needsImage) {
+      // ✅ Step 4: Search for an image (Google PSE)
+      imageUrl = await searchImage(searchQuery);
+      if (imageUrl) {
+        // ✅ Step 5: Analyze the image (Gemini Vision)
+        imageDescription = await analyzeImage(imageUrl);
+      }
     }
-     // Send the LLM response back to the frontend
-     return res.json({ prediction: "There seems to be an error in the server please try again later" });
+
+    // ✅ Step 6: Generate Groq LLaMA response
+    let prompt = `As a machine learning expert, provide a detailed explanation of "${text}". Structure your response clearly, covering key concepts, practical applications, and relevant examples. If the query is unrelated to machine learning, politely refuse to answer.`;
+
+    if (imageDescription) {
+      prompt += ` Additionally, analyze this image: ${imageDescription}  add this placeholder for {{image}} and only before explaining image `;
+    }
+
+    const prediction = await getLlamaResponse(prompt);
+
+    return res.json({ prediction, image: imageUrl });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ msg: "Internal server error" });
+    console.error("Error in getRespo:", error);
+    res
+      .status(500)
+      .json({ prediction: "Internal server error", msg: error.message });
   }
 });
+
 
 module.exports = router;

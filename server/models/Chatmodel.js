@@ -6,13 +6,14 @@ const messagePairSchema = new mongoose.Schema({
   },
   llmMessage: {
     text: { type: String, required: true },
+    image: { type: String, default: null }, // Store image URL (default: null if no image)
   }
 });
 
 const chatSchema = new mongoose.Schema({
   title: { type: String, required: true },
   email: { type: String, required: true },
-  sessionId: { type: String, required: true , unique: true }, 
+  sessionId: { type: String, required: true, unique: true }, 
   messages: { type: [messagePairSchema], required: true },
   lastUpdated: { type: Date, default: Date.now },
 });
