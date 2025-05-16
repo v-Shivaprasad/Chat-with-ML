@@ -2,30 +2,34 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Login Page', () => {
   test('should login successfully with valid credentials', async ({ page }) => {
+    // Navigate to the login page
     await page.goto('http://localhost:5173/login');
 
-    // Fill in the email and password fields
-    await page.getByPlaceholder('Enter your email').fill('testuser@example.com');
-    await page.getByPlaceholder('Enter your password').fill('correctpassword');
+    // Fill email
+    await page.getByPlaceholder('Enter your email').fill('velagadaa@gmail.com');
+
+    // Fill password
+    await page.getByPlaceholder('Enter your password').fill('shiva');
 
     // Click the login button
-    await page.getByRole('button', { name: /login/i }).click();
+    await page.getByRole('button', { name: 'Login' }).click();
 
-    // Wait for navigation (assuming it redirects to home on success)
-    await page.waitForURL('http://localhost:5173/');
+    // Expect redirect to homepage
+    await expect(page).toHaveURL('http://localhost:5173/');
 
-    // Optional: check if login succeeded by verifying some element on home page
-    await expect(page.locator('text=Login To Your Account')).not.toBeVisible(); // Shouldn't be on login page anymore
+    // Optionally, check something on the homepage (e.g., navbar, welcome message)
+    await expect(page.locator('text=Login To Your Account')).not.toBeVisible(); // should be redirected
   });
 
-  test('should show error message with invalid credentials', async ({ page }) => {
+  test('should show error with invalid credentials', async ({ page }) => {
     await page.goto('http://localhost:5173/login');
 
-    await page.getByPlaceholder('Enter your email').fill('wronguser@example.com');
-    await page.getByPlaceholder('Enter your password').fill('wrongpassword');
-    await page.getByRole('button', { name: /login/i }).click();
+    await page.getByPlaceholder('Enter your email').fill('wrong@example.com');
+    await page.getByPlaceholder('Enter your password').fill('wrongpass');
 
-    // Check if error message is shown
-    await expect(page.locator('text=Invalid')).toBeVisible(); // Adjust based on actual error text
+    await page.getByRole('button', { name: 'Login' }).click();
+
+    // Expect error message
+    await expect(page.locator('text=Invalid email or password.')).toBeVisible();
   });
 });

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDarkTheme } from "../store/ThemeManage";
 import Navbar from "../components/Navbar";
 import { loginwithemailandPassword } from "../Hooks/Helper";
+
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
@@ -12,14 +13,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null); // Clear any previous errors
     try {
       const user = await loginwithemailandPassword(formData);
       if (user.ok) {
         localStorage.setItem("token", user.token);
-        navigate("/", { state: { loginSuccess: true } }); // Pass loginSuccess state
+        navigate("/", { state: { loginSuccess: true } });
+      } else {
+        setError("Invalid email or password.");
       }
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      // Show server-sent error message or a fallback one
+      setError(err.message || "Invalid email or password.");
     }
   };
 
@@ -40,7 +45,7 @@ const Login = () => {
           </Typography>
           <Typography color="blue-gray-500" className="text-center mb-6">
             {error ? (
-              <p className="text-red-500">{error}</p>
+              <p className="text-red-500 font-medium">{error}</p>
             ) : (
               "Please fill in the details below to login."
             )}
@@ -62,6 +67,7 @@ const Login = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
+                  required
                 />
               </div>
             </div>
@@ -81,10 +87,15 @@ const Login = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
+                  required
                 />
               </div>
             </div>
-            <Button type="submit" color="blue" className="w-full bg-gradient-to-r from-gradient_textto-gradient_texthover:from-blue-700 hover:to-blue-900 text-white">
+            <Button
+              type="submit"
+              color="blue"
+              className="w-full bg-gradient-to-r from-gradient_text to-gradient_texthover hover:from-blue-700 hover:to-blue-900 text-white"
+            >
               Login
             </Button>
           </form>
