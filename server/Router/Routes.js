@@ -211,65 +211,86 @@ router.post('/users/getChatDetails', async (req, res) => {
   }
 });
 
+// router.post('/getRespo', async (req, res) => {
+//   try {
+//     const text = req.body.data;
+
+//     // ✅ Step 1: Classify the query
+//     const classificationResult = await classifyQuery(text);
+//     console.log("Raw Classification Result:", classificationResult);
+
+//     // ✅ Step 2: Handle casual responses
+//     if (classificationResult.type === 'Casual') {
+//       return res.json({ prediction: classificationResult.response });
+//     }
+
+//     // ✅ Step 3: Reject Non-ML Queries
+//     if (classificationResult.type === 'Non-Machine Learning') {
+//       return res.json({ 
+//         prediction: `Sorry I am a Machine Learning Model and i can't answer to this query as it is unrelated to Machine Learning. If you have any ML-related questions, I’d be happy to help!`,
+//         image: null 
+//       });
+//     }
+
+//     // ✅ Extract details
+//     const type = classificationResult.type || 'Error';
+//     const topic = classificationResult.topic || 'General Machine Learning';
+//     const searchQuery = classificationResult.searchQuery;
+//     const needsImage = classificationResult.needsImage || false;
+
+//     console.log("Extracted Type:", type);
+//     console.log("Extracted Topic:", topic);
+//     console.log("Search Query for Image:", searchQuery);
+//     console.log("Needs Image:", needsImage);
+
+//     let imageUrl = null;
+//     let imageDescription = "";
+
+//     if (needsImage) {
+//       // ✅ Step 4: Search for an image (Google PSE)
+//       imageUrl = await searchImage(searchQuery);
+//       if (imageUrl) {
+//         // ✅ Step 5: Analyze the image (Gemini Vision)
+//         imageDescription = await analyzeImage(imageUrl);
+//       }
+//     }
+
+//     // ✅ Step 6: Generate Groq LLaMA response
+//     let prompt = `As a machine learning expert, provide a detailed explanation of "${text}". Structure your response clearly, covering key concepts, practical applications, and relevant examples. If the query is unrelated to machine learning, politely refuse to answer.`;
+
+//     if (imageDescription) {
+//       prompt += ` Additionally, analyze this image: ${imageDescription}  add this placeholder for {{image}} and only before explaining image `;
+//     }
+
+//     const prediction = await getLlamaResponse(prompt);
+//     prediction.replace("prompt", "");
+//     return res.json({ prediction, image: imageUrl });
+//   } catch (error) {
+//     console.error("Error in getRespo:", error);
+//     res
+//       .status(500)
+//       .json({ prediction: "Internal server error", msg: error.message });
+//   }
+// });
+
+
 router.post('/getRespo', async (req, res) => {
   try {
     const text = req.body.data;
 
-    // ✅ Step 1: Classify the query
-    const classificationResult = await classifyQuery(text);
-    console.log("Raw Classification Result:", classificationResult);
+    // Construct the prompt
+    // const prompt = `As a machine learning expert, provide a detailed explanation of "${text}". Structure your response clearly, covering key concepts, practical applications, and relevant examples.`;
 
-    // ✅ Step 2: Handle casual responses
-    if (classificationResult.type === 'Casual') {
-      return res.json({ prediction: classificationResult.response });
-    }
+    // Send to LLaMA backend
+    const prediction = await getLlamaResponse(text);
 
-    // ✅ Step 3: Reject Non-ML Queries
-    if (classificationResult.type === 'Non-Machine Learning') {
-      return res.json({ 
-        prediction: `Sorry I am a Machine Learning Model and i can't answer to this query as it is unrelated to Machine Learning. If you have any ML-related questions, I’d be happy to help!`,
-        image: null 
-      });
-    }
-
-    // ✅ Extract details
-    const type = classificationResult.type || 'Error';
-    const topic = classificationResult.topic || 'General Machine Learning';
-    const searchQuery = classificationResult.searchQuery;
-    const needsImage = classificationResult.needsImage || false;
-
-    console.log("Extracted Type:", type);
-    console.log("Extracted Topic:", topic);
-    console.log("Search Query for Image:", searchQuery);
-    console.log("Needs Image:", needsImage);
-
-    let imageUrl = null;
-    let imageDescription = "";
-
-    if (needsImage) {
-      // ✅ Step 4: Search for an image (Google PSE)
-      imageUrl = await searchImage(searchQuery);
-      if (imageUrl) {
-        // ✅ Step 5: Analyze the image (Gemini Vision)
-        imageDescription = await analyzeImage(imageUrl);
-      }
-    }
-
-    // ✅ Step 6: Generate Groq LLaMA response
-    let prompt = `As a machine learning expert, provide a detailed explanation of "${text}". Structure your response clearly, covering key concepts, practical applications, and relevant examples. If the query is unrelated to machine learning, politely refuse to answer.`;
-
-    if (imageDescription) {
-      prompt += ` Additionally, analyze this image: ${imageDescription}  add this placeholder for {{image}} and only before explaining image `;
-    }
-
-    const prediction = await getLlamaResponse(prompt);
-
-    return res.json({ prediction, image: imageUrl });
+    return res.json({ prediction });
   } catch (error) {
     console.error("Error in getRespo:", error);
-    res
-      .status(500)
-      .json({ prediction: "Internal server error", msg: error.message });
+    res.status(500).json({
+      prediction: "Internal server error",
+      msg: error.message
+    });
   }
 });
 
